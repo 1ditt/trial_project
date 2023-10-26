@@ -13,12 +13,12 @@ stages:
     - checkout: self
       displayName: 'Checkout Repository'
 
-    - task: PowerShell@2
+    - task: Bash@3
       displayName: 'Create temp folder'
       inputs:
         targetType: 'inline'
         script: |
-          New-Item -ItemType Directory -Path $(System.DefaultWorkingDirectory)\temp
+          mkdir $(System.DefaultWorkingDirectory)/temp
     - task: CopyFiles@2
       displayName: 'Move desired artifacts to "temp" folder'
       inputs:
