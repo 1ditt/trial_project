@@ -33,18 +33,18 @@ stages:
             04_Results/OuterLoop_Control/model_standards_results            
             04_Results/OuterLoop_Control/webview
             derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache-folder/  
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder  
     - task: Cache@2
       displayName: Restore Cache
       inputs:
         key: 'job-caching | $(Agent.OS)'
         path: |
-              cache-folder/
+              cache_folder
 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache-folder/
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder
         artifact: 'padv_artifacts_cache'
         publishLocation: 'pipeline' 
 
