@@ -107,7 +107,7 @@ stages:
                04_Results/OuterLoop_Control/design_error_detections            
                04_Results/OuterLoop_Control/model_standards_results            
                04_Results/OuterLoop_Control/webview
-            derived/artifacts.dmr
+               derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
