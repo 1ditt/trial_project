@@ -15,7 +15,7 @@ stages:
     - task: Cache@2
       displayName: 'Restore Cache'
       inputs:
-        key: 'work'
+        key: 'work|test'
         path: |
               $(System.DefaultWorkingDirectory)/work/cache
 
@@ -215,7 +215,7 @@ stages:
     - task: Cache@2
       displayName: Save Cache
       inputs:
-        key: 'work'
+        key: 'work|test'
         path: |
               $(System.DefaultWorkingDirectory)/work/cache
 
