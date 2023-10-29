@@ -22,7 +22,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts'
-      condition: variables['RestoreCache.CacheHit'] == 'true'
+      condition: and(succeeded(), eq(variables['RestoreCache.cacheHit'], 'true'))
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
         artifact: 'padv_artifacts_cache'
