@@ -15,7 +15,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'job-caching | $(Agent.OS)'
+        key: 'DownloadedArtifacts1 | $(Agent.OS)'
         path: |
              $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
       name: RestoreCache
@@ -261,7 +261,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'job-caching | $(Agent.OS)'
+        key: 'DownloadedArtifacts1 | $(Agent.OS)'
         path: |
               $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
 
