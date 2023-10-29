@@ -15,7 +15,7 @@ stages:
     - task: Cache@2
       displayName: 'Restore Cache'
       inputs:
-        key: 'work|test'
+        key: 'cache |"$(Agent.OS)"| **/packages.lock.json,!**/bin/**,!**/obj/**'
         path: |
               $(System.DefaultWorkingDirectory)/work/cache
 
@@ -215,7 +215,7 @@ stages:
     - task: Cache@2
       displayName: Save Cache
       inputs:
-        key: 'work|test'
+        key: 'cache |"$(Agent.OS)"| **/packages.lock.json,!**/bin/**,!**/obj/**'
         path: |
               $(System.DefaultWorkingDirectory)/work/cache
 
