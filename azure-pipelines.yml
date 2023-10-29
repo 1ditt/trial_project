@@ -50,6 +50,7 @@ stages:
       displayName: 'Checkout Repository'
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
+      condition: and(succeeded(), eq(variables['RestoreCache.cacheHit'], 'true'))
       inputs:
        artifactName: 'padv_artifacts_cache'
        downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
