@@ -15,16 +15,16 @@ stages:
     - task: Cache@2
       displayName: 'Restore Cache'
       inputs:
-        key: 'DownloadedArtifacts1 | $(Agent.OS)'
+        key: 'work| $(Agent.OS)'
         path: |
-         $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-      name: RestoreCache
+              $(System.DefaultWorkingDirectory)/work/cache
+     
 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts'
-      condition: eq(stageDependencies.FirstStage.RestoreCache.outputs['RestoreCache.CacheMiss'], 'false')
+     
       inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+        targetPath: $(System.DefaultWorkingDirectory)/work/cache
         artifact: 'padv_artifacts_cache'
         publishLocation: 'pipeline'
 
@@ -41,11 +41,11 @@ stages:
       displayName: 'Download Artifacts'
       inputs:
        artifactName: 'padv_artifacts_cache'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+       downloadPath: $(System.DefaultWorkingDirectory)/work/cache
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
       inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+        sourceFolder: $(System.DefaultWorkingDirectory)/work/cache
         contents: |
                04_Results/AHRS_Voter/design_error_detections
                04_Results/AHRS_Voter/model_standards_results
@@ -224,12 +224,12 @@ stages:
       displayName: 'Download Artifacts'
       inputs:
        artifactName: 'padv_artifacts'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       downloadPath: $(System.DefaultWorkingDirectory)/work/cache
 
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
       inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       sourceFolder: $(System.DefaultWorkingDirectory)/work/cache
        contents: |
             derived/artifacts.dmr
             04_Results/AHRS_Voter/webview/**
@@ -249,10 +249,10 @@ stages:
             04_Results/OuterLoop_Control/design_error_detections/**
        targetFolder: $(System.DefaultWorkingDirectory)   
     - task: Cache@2
-      displayName: Restore Cache
+      displayName: Save Cache
       inputs:
-        key: 'DownloadedArtifacts1 | $(Agent.OS)'
+        key: 'work | $(Agent.OS)'
         path: |
-              $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+              $(System.DefaultWorkingDirectory)/work/cache
 
     
