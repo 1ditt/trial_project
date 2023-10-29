@@ -17,10 +17,11 @@ stages:
       inputs:
         key: 'job-caching | $(Agent.OS)'
         path: |
-               /04_Results/AHRS_Voter/design_error_detections
-  
+               04_Results/AHRS_Voter/design_error_detections
+      name: RestoreCache
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
+      condition: and(succeeded(), eq(variables['RestoreCache.cacheHit'], 'true'))
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/work/cache/
         artifact: 'padv_artifacts_cache'
