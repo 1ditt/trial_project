@@ -17,12 +17,12 @@ stages:
       inputs:
         key: 'job-caching | $(Agent.OS)'
         path: |
-              $(System.DefaultWorkingDirectory)/work/cache/ 
+             $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
       name: RestoreCache
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/work/cache/
+        targetPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
         artifact: 'padv_artifacts_cache'
         publishLocation: 'pipeline' 
 
@@ -263,6 +263,6 @@ stages:
       inputs:
         key: 'job-caching | $(Agent.OS)'
         path: |
-              DownloadedArtifacts1
+              $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
 
     
