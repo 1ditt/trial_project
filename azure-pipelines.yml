@@ -13,30 +13,20 @@ stages:
     - checkout: self
       displayName: 'Checkout Repository' 
     - task: Cache@2
-      displayName: Restore Cache
+      displayName: 'Restore Cache'
       inputs:
         key: 'DownloadedArtifacts1 | $(Agent.OS)'
         path: |
-             $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+         $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
       name: RestoreCache
+
     - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
+      displayName: 'Upload Artifacts'
+      condition: variables['RestoreCache.CacheHit'] == 'true'
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
         artifact: 'padv_artifacts_cache'
-        publishLocation: 'pipeline' 
-
-    
-
-
-    
-
-
-
-
-
-
-
+        publishLocation: 'pipeline'
 
 - stage: Generate_Simulink_Web_View
   dependsOn: Restore_Cache     
