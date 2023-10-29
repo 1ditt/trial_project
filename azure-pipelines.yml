@@ -22,7 +22,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts'
-      condition: ne(dependencies.RestoreCache.outputs['RestoreCache.CacheMiss'], 'true')
+      condition: eq(stageDependencies.FirstStage.RestoreCache.outputs['RestoreCache.CacheMiss'], 'false')
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
         artifact: 'padv_artifacts_cache'
