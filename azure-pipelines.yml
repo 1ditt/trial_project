@@ -121,3 +121,7 @@ stages:
         key: 'working11|testing11'
         path: |
               $(System.DefaultWorkingDirectory)/derived  
+
+    - script: |
+        echo "Contents of Cache Path:"
+        ls -R $(Build.ArtifactStagingDirectory)/04_Results
