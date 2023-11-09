@@ -160,4 +160,34 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/derived/
         artifact: 'Derived'
         publishLocation: 'pipeline' 
-   
+
+- stage: Collect_Artifacts
+  dependsOn: Detect_Design_Errors
+  jobs:
+  - job: Collect_Artifacts
+    displayName: 'Collect_Artifacts'
+    pool: Default
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: '04Results'
+       downloadPath: $(System.DefaultWorkingDirectory)/04_Results
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'Derived'
+       downloadPath: $(System.DefaultWorkingDirectory)/derived
+      
+    - task: Cache@2
+      displayName: Save Cache
+      inputs:
+        key: 'work|test'
+        path: |
+              $(System.DefaultWorkingDirectory)/04_Results
+    - task: Cache@2
+      displayName: Save Cache
+      inputs:
+        key: 'work|test'
+        path: |
+              $(System.DefaultWorkingDirectory)/derived  
