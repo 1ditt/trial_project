@@ -4,37 +4,17 @@ trigger:
       - main
 
 stages:
-- stage: Check_Modeling_Standards          
+- stage: Generate_Simulink_Web_View
   jobs:
-  - job: Check_Modeling_Standards
-    displayName: 'Check_Modeling_Standards'
+  - job: Generate_Simulink_Web_View
+    displayName: 'Generate_Simulink_Web_View'
     pool: Default
     steps:
-    - checkout: self 
+    - checkout: self
       displayName: 'Checkout Repository'
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
-         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-         derived/artifacts.dmr
-         04_Results/AHRS_Voter/model_standards_results/**
-         04_Results/Actuator_Control/model_standards_results/**
-         04_Results/Flight_Control/model_standards_results/**
-         04_Results/InnerLoop_Control/model_standards_results/**
-         04_Results/OuterLoop_Control/model_standards_results/**
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'padv_artifacts_second'
-        publishLocation: 'pipeline' 
-
-
+          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+   
