@@ -92,7 +92,7 @@ stages:
 
 
 - stage: Collect_Artifacts
-  dependsOn: Detect_Design_Errors
+  dependsOn: Check_Modeling_Standards 
   jobs:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
