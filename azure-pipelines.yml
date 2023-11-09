@@ -23,13 +23,19 @@ stages:
       inputs:
         key: 'working1|testing1'
         path: |
-              $(System.DefaultWorkingDirectory)/derived          
+              $(System.DefaultWorkingDirectory)/derived   
+
+    - script: |
+        mkdir $(System.DefaultWorkingDirectory)/04_Results
+      displayName: 'Create 04_Results Folder'
+      continueOnError: true                 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/04_Results/
         artifact: 'padv_artifacts_results'
         publishLocation: 'pipeline'
+      condition: ne(variables['Cache.RestoreBuildInputs.result'], 'Restored')  
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
