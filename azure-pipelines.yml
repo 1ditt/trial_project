@@ -4,7 +4,41 @@ trigger:
       - main
 
 stages:
+- stage: Restore_Cache
+  jobs:
+  - job: Restore_Cache
+    displayName: 'Restore_Cache'
+    pool: Default
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository' 
+    - task: Cache@2
+      displayName: 'Restore Results Cache'
+      inputs:
+        key: 'working|testing'
+        path: |
+              $(System.DefaultWorkingDirectory)/04_Results
+    - task: Cache@2
+      displayName: 'Restore Derived Cache'
+      inputs:
+        key: 'working1|testing1'
+        path: |
+              $(System.DefaultWorkingDirectory)/derived          
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/04_Results/
+        artifact: 'padv_artifacts_results'
+        publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/derived/
+        artifact: 'padv_artifacts_derived'
+        publishLocation: 'pipeline' 
+
 - stage: Generate_Simulink_Web_View
+  dependsOn: Restore_Cache
   jobs:
   - job: Generate_Simulink_Web_View
     displayName: 'Generate_Simulink_Web_View'
@@ -12,6 +46,19 @@ stages:
     steps:
     - checkout: self
       displayName: 'Checkout Repository'
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Results Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_results'
+        targetPath: '$(System.DefaultWorkingDirectory)/04_Results'
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Derived Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_derived'
+        targetPath: '$(System.DefaultWorkingDirectory)/derived'  
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
@@ -105,12 +152,12 @@ stages:
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/04_Results/
-        artifact: 'padv_artifacts_results3'
+        artifact: '04Results'
         publishLocation: 'pipeline' 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/derived/
-        artifact: 'padv_artifacts_derived3'
+        artifact: 'Derived'
         publishLocation: 'pipeline' 
    
