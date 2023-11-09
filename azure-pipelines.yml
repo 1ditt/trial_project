@@ -29,6 +29,10 @@ stages:
         mkdir $(System.DefaultWorkingDirectory)/04_Results
       displayName: 'Create 04_Results Folder'
       continueOnError: true                 
+    - script: |
+        mkdir $(System.DefaultWorkingDirectory)/derived
+      displayName: 'Create derived Folder'
+      continueOnError: true                   
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
@@ -42,7 +46,7 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/derived/
         artifact: 'padv_artifacts_derived'
         publishLocation: 'pipeline' 
-
+      condition: ne(variables['Cache.RestoreBuildInputs.result'], 'Restored')    
 - stage: Generate_Simulink_Web_View
   dependsOn: Restore_Cache
   jobs:
