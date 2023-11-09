@@ -54,3 +54,63 @@ stages:
         artifactName: 'padv_artifacts_derived1'
         targetPath: '$(System.DefaultWorkingDirectory)/derived'
 
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/04_Results/
+        artifact: 'padv_artifacts_results2'
+        publishLocation: 'pipeline' 
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/derived/
+        artifact: 'padv_artifacts_derived2'
+        publishLocation: 'pipeline'    
+
+- stage: Detect_Design_Errors
+  dependsOn: Check_Modeling_Standards 
+  jobs:
+  - job: Detect_Design_Errors  
+    displayName: 'Detect_Design_Errors'
+    pool: Default
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'     
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Results Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_results2'
+        targetPath: '$(System.DefaultWorkingDirectory)/04_Results'
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Derived Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_derived2'
+        targetPath: '$(System.DefaultWorkingDirectory)/derived'
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/04_Results/
+        artifact: 'padv_artifacts_results3'
+        publishLocation: 'pipeline' 
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/derived/
+        artifact: 'padv_artifacts_derived3'
+        publishLocation: 'pipeline' 
+   
