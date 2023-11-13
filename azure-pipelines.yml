@@ -1,7 +1,8 @@
 trigger:
 - main
 
-pool: default
+pool:
+  vmImage: 'ubuntu-latest'
 
 jobs:
 - job: CacheHelloFile
@@ -11,12 +12,13 @@ jobs:
     displayName: 'Restore Cache'
     inputs:
       key: 'hello-file | "$(Agent.OS)"'
-      path: $(Agent.BuildDirectory)/hello.txt
+      path: $(Agent.BuildDirectory)/hello-cache
       cacheHitVar: 'CacheRestored'
 
   - script: |
       if [ "$(CacheRestored)" != "true" ]; then
-        echo "Hello, World!" > $(Agent.BuildDirectory)/hello.txt
+        mkdir $(Agent.BuildDirectory)/hello-cache
+        echo "Hello, World!" > $(Agent.BuildDirectory)/hello-cache/hello.txt
       fi
     displayName: 'Create hello.txt'
 
@@ -24,4 +26,4 @@ jobs:
     displayName: 'Cache hello.txt'
     inputs:
       key: 'hello-file | "$(Agent.OS)"'
-      path: $(Agent.BuildDirectory)/hello.txt
+      path: $(Agent.BuildDirectory)/hello-cache
