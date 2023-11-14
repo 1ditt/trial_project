@@ -101,6 +101,7 @@ stages:
     - script: |
           # Create a cache_folder in $(System.DefaultWorkingDirectory)
           mkdir $(System.DefaultWorkingDirectory)/cache_folder
+          echo "Hello, World!" > $(Agent.BuildDirectory)/cache_folder/hello.txt
       displayName: 'Create Cache Folder'  
             
     - task: CopyFiles@2
