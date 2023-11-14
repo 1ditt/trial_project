@@ -96,14 +96,8 @@ stages:
         path: |
                 
                 derived/  
+  
    
-
-    - script: |
-          # Create a temp in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/temp
-          echo "Hello, World!" > $(System.DefaultWorkingDirectory)/temp/hello.txt
-      displayName: 'Create temp'  
-            
     - task: CopyFiles@2
       displayName: 'Move desired cache to temp'
       inputs:
@@ -125,12 +119,12 @@ stages:
             04_Results/OuterLoop_Control/model_standards_results            
             04_Results/OuterLoop_Control/webview
             derived/artifacts.dmr
-          targetFolder: $(System.ArtifactStagingDirectory)/temp 
+          targetFolder: $(Build.ArtifactStagingDirectory)/temp 
 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
-        targetPath: $(System.ArtifactStagingDirectory)/temp
+        targetPath: $(Build.ArtifactStagingDirectory)/temp
         artifact: 'padv_artifacts_cache'
         publishLocation: 'pipeline' 
    
