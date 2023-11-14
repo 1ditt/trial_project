@@ -89,7 +89,13 @@ stages:
                 
                 04_Results/OuterLoop_Control/webview
                 
-
+    - task: Cache@2
+      displayName: Restore Cache11
+      inputs:
+        key: '"DERIVED" | "$(Agent.OS)"'
+        path: |
+                
+                derived/  
    
 
     - script: |
@@ -101,8 +107,8 @@ stages:
     - task: CopyFiles@2
       displayName: 'Move desired cache to temp'
       inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
+          sourceFolder: '$(Pipeline.Workspace)'
+          contents: |
            
             04_Results/AHRS_Voter/model_standards_results
             04_Results/AHRS_Voter/webview
@@ -119,11 +125,12 @@ stages:
             04_Results/OuterLoop_Control/model_standards_results            
             04_Results/OuterLoop_Control/webview
             derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp 
+          targetFolder: $(System.ArtifactStagingDirectory)/temp 
+
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp
+        targetPath: $(System.ArtifactStagingDirectory)/temp
         artifact: 'padv_artifacts_cache'
         publishLocation: 'pipeline' 
    
