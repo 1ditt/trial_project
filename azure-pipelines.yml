@@ -90,13 +90,7 @@ stages:
                 04_Results/OuterLoop_Control/webview
                 
 
-    - task: Cache@2
-      displayName: Restore Cache11
-      inputs:
-        key: '"DERIVED" | "$(Agent.OS)"'
-        path: |
-                
-                derived/  
+   
 
     - script: |
           # Create a temp in $(System.DefaultWorkingDirectory)
