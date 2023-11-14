@@ -10,22 +10,19 @@ jobs:
   - task: Cache@2
     displayName: 'Restore Cache'
     inputs:
-      key: 'hello-file | "$(Agent.OS)"'
+      key: '"hello-cache" | "$(Agent.OS)"'
       path: $(Agent.BuildDirectory)/hello-cache
-      cacheHitVar: 'CacheRestored'
+      cacheHitVar: CACHE_RESTORED 
 
   - script: |
-      if [ "$(CacheRestored)" != "true" ]; then
+      echo "$(CACHE_RESTORED)"
+      if [ "$(CACHE_RESTORED)" != "true" ]; then
         mkdir $(Agent.BuildDirectory)/hello-cache
         echo "Hello, World!" > $(Agent.BuildDirectory)/hello-cache/hello.txt
-        echo "##vso[task.setvariable variable=CacheRestored]true"
+        echo "true"
+        echo "$(Agent.BuildDirectory)"
       else
-        echo "##vso[task.setvariable variable=CacheRestored]false"
+        echo "false"
       fi
     displayName: 'Create hello.txt'
 
-  - task: Cache@2
-    displayName: 'Cache hello.txt'
-    inputs:
-      key: 'hello-file | "$(Agent.OS)"'
-      path: $(Agent.BuildDirectory)/hello-cache
