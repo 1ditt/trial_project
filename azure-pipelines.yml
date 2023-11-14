@@ -15,7 +15,7 @@ stages:
     - task: Cache@2
       displayName: 'Restore Derived Cache'
       inputs:
-        key: '"Derived"|"$(Agent.OS)"| derived/artifacts.dmr'
+        key: '"Derived"|"$(Agent.OS)"'
         path: |
               $(System.DefaultWorkingDirectory)/derived   
         cacheHitVar: CACHE_RESTORED
@@ -41,7 +41,7 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/derived/
         artifact: 'padv_artifacts_derived'
         publishLocation: 'pipeline' 
-      condition: ne(variables['Cache.RestoreBuildInputs.result'], 'Restored')    
+      condition: ne(variables.CACHE_RESTORED, 'true')  
   
 - stage: Check_Modeling_Standards 
   dependsOn: Restore_Cache           
@@ -58,32 +58,34 @@ stages:
         buildType: 'current'
         artifactName: 'padv_artifacts_results'
         targetPath: '$(System.DefaultWorkingDirectory)/04_Results'
-
+      condition: ne(variables.CACHE_RESTORED, 'true')
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Derived Artifact'
       inputs:
         buildType: 'current'
         artifactName: 'padv_artifacts_derived'
         targetPath: '$(System.DefaultWorkingDirectory)/derived'
-
+      condition: ne(variables.CACHE_RESTORED, 'true')
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-
+      condition: ne(variables.CACHE_RESTORED, 'true')
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/04_Results/
         artifact: 'padv_artifacts_results2'
         publishLocation: 'pipeline' 
+      condition: ne(variables.CACHE_RESTORED, 'true')  
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/derived/
         artifact: 'padv_artifacts_derived2'
-        publishLocation: 'pipeline'    
+        publishLocation: 'pipeline'  
+      condition: ne(variables.CACHE_RESTORED, 'true')    
 
 
 - stage: Collect_Artifacts
