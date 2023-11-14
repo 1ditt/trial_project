@@ -98,6 +98,12 @@ stages:
                 derived/  
   
    
+    - script: |
+          # Create a temp in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/temp
+          echo "Hello, World!" > $(Build.ArtifactStagingDirectory)/temp/hello.txt
+      displayName: 'Create temp'      
+    
     - task: CopyFiles@2
       displayName: 'Move desired cache to temp'
       inputs:
