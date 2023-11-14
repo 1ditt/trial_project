@@ -10,7 +10,7 @@ jobs:
   - task: Cache@2
     displayName: 'Restore Cache'
     inputs:
-      key: '"hello-caches" | "$(Agent.OS)"'
+      key: '"hello-cache" | "$(Agent.OS)"'
       path: $(Agent.BuildDirectory)/hello-cache
       cacheHitVar: CACHE_RESTORED 
 
