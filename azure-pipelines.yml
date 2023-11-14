@@ -1,28 +1,118 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool: default
+stages:
+- stage: Restore_Cache
+  jobs:
+  - job: Restore_Cache
+    displayName: 'Restore_Cache'
+    pool: Default
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository' 
+    - task: Cache@2
+      displayName: 'Restore Derived Cache'
+      inputs:
+        key: '"Derived"|"$(Agent.OS)"| derived/artifacts.dmr'
+        path: |
+              $(System.DefaultWorkingDirectory)/derived   
+        cacheHitVar: CACHE_RESTORED
 
-jobs:
-- job: CacheHelloFile
-  displayName: 'Cache hello.txt'
-  steps:
-  - task: Cache@2
-    displayName: 'Restore Cache'
-    inputs:
-      key: '"hello-cache" | "$(Agent.OS)"'
-      path: $(Agent.BuildDirectory)/hello-cache
-      cacheHitVar: CACHE_RESTORED 
+    - script: |
+        mkdir $(System.DefaultWorkingDirectory)/04_Results
+      displayName: 'Create 04_Results Folder'
+      condition: ne(variables.CACHE_RESTORED, 'true')               
+    - script: |
+        mkdir $(System.DefaultWorkingDirectory)/derived
+      displayName: 'Create derived Folder'
+      condition: ne(variables.CACHE_RESTORED, 'true')                  
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/04_Results/
+        artifact: 'padv_artifacts_results'
+        publishLocation: 'pipeline'
+      condition: ne(variables.CACHE_RESTORED, 'true')
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/derived/
+        artifact: 'padv_artifacts_derived'
+        publishLocation: 'pipeline' 
+      condition: ne(variables['Cache.RestoreBuildInputs.result'], 'Restored')    
+  
+- stage: Check_Modeling_Standards 
+  dependsOn: Restore_Cache           
+  jobs:
+  - job: Check_Modeling_Standards
+    displayName: 'Check_Modeling_Standards'
+    pool: Default
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Results Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_results'
+        targetPath: '$(System.DefaultWorkingDirectory)/04_Results'
 
-  - script: |
-      echo "$(CACHE_RESTORED)"
-      if [ "$(CACHE_RESTORED)" != "true" ]; then
-        mkdir $(Agent.BuildDirectory)/hello-cache
-        echo "Hello, World!" > $(Agent.BuildDirectory)/hello-cache/hello.txt
-        echo "true"
-        echo "$(Agent.BuildDirectory)"
-      else
-        echo "false"
-      fi
-    displayName: 'Create hello.txt'
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Derived Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'padv_artifacts_derived'
+        targetPath: '$(System.DefaultWorkingDirectory)/derived'
 
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/04_Results/
+        artifact: 'padv_artifacts_results2'
+        publishLocation: 'pipeline' 
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/derived/
+        artifact: 'padv_artifacts_derived2'
+        publishLocation: 'pipeline'    
+
+
+- stage: Collect_Artifacts
+  dependsOn: Check_Modeling_Standards 
+  jobs:
+  - job: Collect_Artifacts
+    displayName: 'Collect_Artifacts'
+    pool: Default
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'padv_artifacts_results2'
+       downloadPath: $(System.DefaultWorkingDirectory)/04_Results
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'padv_artifacts_derived2'
+       downloadPath: $(System.DefaultWorkingDirectory)/derived
+      
+    - task: Cache@2
+      displayName: Save Cache
+      inputs:
+        key: 'working11|testing11'
+        path: |
+              $(System.DefaultWorkingDirectory)/04_Results
+    - task: Cache@2
+      displayName: Save Cache
+      inputs:
+        key: 'working11|testing11'
+        path: |
+              $(System.DefaultWorkingDirectory)/derived  
