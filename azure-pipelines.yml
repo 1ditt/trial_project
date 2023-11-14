@@ -35,6 +35,12 @@ stages:
                 04_Results/OuterLoop_Control/model_standards_results            
                 04_Results/OuterLoop_Control/webview
                 derived/artifacts.dmr
+  
+    - script: |
+          # Create a cache_folder in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/cache_folder
+      displayName: 'Create Cache Folder'
+            
     - task: CopyFiles@2
       displayName: 'Move desired cache to folder'
       inputs:
