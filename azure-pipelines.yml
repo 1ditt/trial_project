@@ -10,7 +10,7 @@ jobs:
   - task: Cache@2
     displayName: 'Restore Cache'
     inputs:
-      key: 'hello-filesss | "$(Agent.OS)"'
+      key: 'hello-filesss | "$(Agent.OS)" | test.txt'
       path: $(Agent.BuildDirectory)
       cacheHitVar: 'CacheRestored'
 
