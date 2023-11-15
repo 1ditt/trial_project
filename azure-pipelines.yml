@@ -11,7 +11,7 @@ jobs:
     displayName: 'Restore Cache'
     inputs:
       key: 'hello-filesss | "$(Agent.OS)"'
-      path: $(Agent.BuildDirectory)/cache_file
+      path: $(Agent.BuildDirectory)
       cacheHitVar: 'CacheRestored'
 
   - script: |
