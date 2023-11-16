@@ -40,7 +40,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: '"DERIVEDDD" | "$(Agent.OS)"'
+        key: '"DERIVEDD" | "$(Agent.OS)"'
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -85,15 +85,6 @@ stages:
         artifact: 'padv_artifacts_first'
         publishLocation: 'pipeline' 
 
-- stage: Check_Modeling_Standards 
-  dependsOn: Generate_Simulink_Web_View            
-  jobs:
-  - job: Check_Modeling_Standards
-    displayName: 'Check_Modeling_Standards'
-    pool: Default
-    steps:
-    - checkout: self 
-      displayName: 'Checkout Repository'
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
       inputs:
@@ -138,18 +129,8 @@ stages:
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'padv_artifacts_second'
-        publishLocation: 'pipeline' 
+        publishLocation: 'pipeline'     
 
-
-    
-  
-- stage: Collect_Artifacts
-  dependsOn: Check_Modeling_Standards
-  jobs:
-  - job: Collect_Artifacts
-    displayName: 'Collect_Artifacts'
-    pool: Default
-    steps:
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
       inputs:
@@ -173,9 +154,3 @@ stages:
          04_Results/InnerLoop_Control/model_standards_results/**
          04_Results/OuterLoop_Control/model_standards_results/**
        targetFolder: $(System.DefaultWorkingDirectory)   
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: '"DERIVEDDD" | "$(Agent.OS)"'
-        path: |
-                $(System.DefaultWorkingDirectory)/DownloadedArtifacts
