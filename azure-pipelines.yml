@@ -26,7 +26,7 @@ stages:
       inputs:
         key: 'FF|"$(Build.BuildId)"'
         restoreKeys: |
-          'Second2|"$(Agent.OS)"'
+          Second2|"$(Agent.OS)"
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -164,6 +164,6 @@ stages:
       inputs:
         key: 'Second2|"$(Agent.OS)"'
         restoreKeys: |
-             'FF|"$(Build.BuildId)"'
+             FF|"$(Build.BuildId)"
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
