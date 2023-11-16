@@ -41,7 +41,7 @@ stages:
       displayName: Restore Cache
       inputs:
         key: 'cache-key-$(Build.BuildId)'
-        restoreKeys: 'second_key'
+        restoreKeys: 'second_key|**'
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
