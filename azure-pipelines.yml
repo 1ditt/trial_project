@@ -40,7 +40,8 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: '"SINGLE" | "$(Agent.OS)"'
+        key: 'first_job'
+        restoreKeys: 'second_job'
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -85,6 +86,15 @@ stages:
         artifact: 'padv_artifacts_first'
         publishLocation: 'pipeline' 
 
+- stage: Check_Modeling_Standards 
+  dependsOn: Generate_Simulink_Web_View            
+  jobs:
+  - job: Check_Modeling_Standards
+    displayName: 'Check_Modeling_Standards'
+    pool: Default
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
       inputs:
@@ -129,18 +139,28 @@ stages:
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'padv_artifacts_second'
-        publishLocation: 'pipeline'     
+        publishLocation: 'pipeline' 
 
+
+    
+  
+- stage: Collect_Artifacts
+  dependsOn: Check_Modeling_Standards
+  jobs:
+  - job: Collect_Artifacts
+    displayName: 'Collect_Artifacts'
+    pool: Default
+    steps:
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
       inputs:
        artifactName: 'padv_artifacts_second'
-       downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
 
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
       inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
        contents: |
          derived/artifacts.dmr
          04_Results/AHRS_Voter/webview/**
@@ -154,3 +174,11 @@ stages:
          04_Results/InnerLoop_Control/model_standards_results/**
          04_Results/OuterLoop_Control/model_standards_results/**
        targetFolder: $(System.DefaultWorkingDirectory)   
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: 'second_job'
+        restoreKeys: 
+        cacheHitVar: first_job
+        path: |
+                $(System.DefaultWorkingDirectory)/DownloadedArtifacts
