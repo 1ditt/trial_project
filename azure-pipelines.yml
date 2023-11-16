@@ -29,6 +29,9 @@ stages:
           Second2|"$(Agent.OS)"
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
+    - script: |
+           echo "hello"
+      displayName: 'Post-job: Restore Cache'            
     - task: CopyFiles@2
       displayName: 'Move cache to Respective Folders'
       inputs:
