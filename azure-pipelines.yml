@@ -40,7 +40,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: '"DERIVEDD" | "$(Agent.OS)"'
+        key: '"DERIVEDDD" | "$(Agent.OS)"'
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -176,6 +176,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: '"DERIVEDD" | "$(Agent.OS)"'
+        key: '"DERIVEDDD" | "$(Agent.OS)"'
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
