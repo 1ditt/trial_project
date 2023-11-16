@@ -177,7 +177,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'second_key'
+        key: 'second_key|**'
         restoreKeys: 'cache-key-$(Build.BuildId)'
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
