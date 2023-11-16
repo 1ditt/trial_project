@@ -20,28 +20,13 @@ stages:
           # Create a cache_folder in $(System.DefaultWorkingDirectory)
           mkdir $(System.DefaultWorkingDirectory)/cache_folder
       displayName: 'Create Cache Folder'   
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                04_Results/AHRS_Voter/model_standards_results
-                04_Results/AHRS_Voter/webview
-                04_Results/Actuator_Control/model_standards_results           
-                04_Results/Actuator_Control/webview                                         
-                04_Results/Flight_Control/model_standards_results            
-                04_Results/Flight_Control/webview                 
-                04_Results/InnerLoop_Control/model_standards_results            
-                04_Results/InnerLoop_Control/webview               
-                04_Results/OuterLoop_Control/model_standards_results            
-                04_Results/OuterLoop_Control/webview
-                derived/artifacts.dmr               
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder 
+
     - task: Cache@2
       displayName: Restore Cache
       inputs:
         key: 'cache-key-$(Build.BuildId)'
-        restoreKeys: 'second_key|**'
+        restoreKeys: |
+          Second2 | "$(Agent.OS)"
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -177,7 +162,8 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'second_key|**'
-        restoreKeys: 'cache-key-$(Build.BuildId)'
+        key: 'Second2 | "$(Agent.OS)"'
+        restoreKeys: |
+             cache-key-$(Build.BuildId)
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
