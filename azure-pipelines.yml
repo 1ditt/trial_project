@@ -24,17 +24,11 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'FF|"$(Build.BuildId)"'
+        key: 'FINAL|"$(Build.BuildId)"'
         restoreKeys: |
-          Second2|"$(Agent.OS)"
+          FINAL
         path: |
-                $(System.DefaultWorkingDirectory)/cache_folder 
-    - task: Cache@2
-      displayName: 'Post-job: Restore Cache'
-      inputs:
-        key: 'hello'
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder           
+                $(System.DefaultWorkingDirectory)/cache_folder         
     - task: CopyFiles@2
       displayName: 'Move cache to Respective Folders'
       inputs:
@@ -168,8 +162,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'Second2|"$(Agent.OS)"'
-        restoreKeys: |
-             FF|"$(Build.BuildId)"
+        key: 'FINAL'
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
