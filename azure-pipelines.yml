@@ -178,6 +178,6 @@ stages:
       displayName: Restore Cache
       inputs:
         key: 'second_key'
-        restoreKeys: 'cache-key-$(Build.BuildId)''
+        restoreKeys: 'cache-key-$(Build.BuildId)'
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
