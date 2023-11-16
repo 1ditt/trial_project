@@ -40,8 +40,8 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'first_job'
-        restoreKeys: 'second_job'
+        key: 'cache-key-$(Build.BuildId)'
+        restoreKeys: 'second_key'
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder 
     - task: CopyFiles@2
@@ -177,8 +177,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'second_job'
-        restoreKeys: 
-        cacheHitVar: first_job
+        key: 'second_key'
+        restoreKeys: 'cache-key-$(Build.BuildId)''
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
