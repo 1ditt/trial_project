@@ -24,7 +24,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache-key-$(Build.BuildId)'
+        key: 'FF|"$(Build.BuildId)"'
         restoreKeys: |
           'Second2|"$(Agent.OS)"'
         path: |
@@ -164,6 +164,6 @@ stages:
       inputs:
         key: 'Second2|"$(Agent.OS)"'
         restoreKeys: |
-             'cache-key-$(Build.BuildId)'
+             'FF|"$(Build.BuildId)"'
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
