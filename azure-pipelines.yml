@@ -77,11 +77,11 @@ stages:
           04_Results/Flight_Control/webview/**
           04_Results/InnerLoop_Control/webview/**
           04_Results/OuterLoop_Control/webview/**
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
         artifact: 'padv_artifacts_first'
         publishLocation: 'pipeline' 
 
