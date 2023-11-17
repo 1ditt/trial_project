@@ -24,14 +24,14 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache1'  
+        key: 'cache11'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED         
     - task: Cache@2
       displayName: Restore Cache from job2
       inputs:
-        key: cache2
+        key: cache22
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder   
       condition: eq(variables.CACHE_RESTORED, 'true')                
@@ -233,6 +233,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: cache2
+        key: cache22
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
