@@ -25,7 +25,10 @@ stages:
       displayName: Restore Cache
       inputs:
         key: 'cache-key-job1|"$(Build.BuildId)"'
-        restoreKeys: cache-key-job2
+        restoreKeys: |
+             cache-key
+             cache-key-job1
+
           
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder         
