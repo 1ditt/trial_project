@@ -24,17 +24,17 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache-key-job1|"$(Build.BuildId)"'  
+        key: 'cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED         
     - task: Cache@2
       displayName: Restore Cache from job2
       inputs:
-        key: cache-key-job2
+        key: cache2
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: ne(variables.CACHE_RESTORED, 'true')                
+      condition: eq(variables.CACHE_RESTORED, 'true')                
     - task: CopyFiles@2
       displayName: 'Move cache to Respective Folders'
       inputs:
@@ -168,6 +168,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: cache-key-job2
+        key: cache2
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
