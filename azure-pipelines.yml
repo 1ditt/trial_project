@@ -201,7 +201,7 @@ stages:
        publishLocation: 'pipeline'   
   
 - stage: Collect_Artifacts
-  dependsOn: Check_Modeling_Standards
+  dependsOn: Detect_Design_Errors
   jobs:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
