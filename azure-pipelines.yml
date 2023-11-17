@@ -24,14 +24,14 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache11'  
+        key: 'cache111'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED         
     - task: Cache@2
       displayName: Restore Cache from job2
       inputs:
-        key: cache22
+        key: cache222
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder   
       condition: eq(variables.CACHE_RESTORED, 'true')                
@@ -40,17 +40,22 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            04_Results/AHRS_Voter/model_standards_results
-            04_Results/AHRS_Voter/webview
-            04_Results/Actuator_Control/model_standards_results           
-            04_Results/Actuator_Control/webview                                         
-            04_Results/Flight_Control/model_standards_results            
-            04_Results/Flight_Control/webview                 
-            04_Results/InnerLoop_Control/model_standards_results            
-            04_Results/InnerLoop_Control/webview              
-            04_Results/OuterLoop_Control/model_standards_results            
-            04_Results/OuterLoop_Control/webview
-            derived/artifacts.dmr   
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/Actuator_Control/webview/**
+            04_Results/Flight_Control/webview/**
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/Actuator_Control/model_standards_results/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+            04_Results/Actuator_Control/design_error_detections/**
+            04_Results/Flight_Control/design_error_detections/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+            04_Results/OuterLoop_Control/design_error_detections/**
         targetFolder: $(System.DefaultWorkingDirectory)            
      
     - task: CmdLine@2
@@ -64,11 +69,11 @@ stages:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
           derived/artifacts.dmr
-          04_Results/AHRS_Voter/webview/**
-          04_Results/Actuator_Control/webview/**
-          04_Results/Flight_Control/webview/**
-          04_Results/InnerLoop_Control/webview/**
-          04_Results/OuterLoop_Control/webview/**
+             04_Results/AHRS_Voter/webview/**
+             04_Results/Actuator_Control/webview/**
+             04_Results/Flight_Control/webview/**
+             04_Results/InnerLoop_Control/webview/**
+             04_Results/OuterLoop_Control/webview/**
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
@@ -97,11 +102,11 @@ stages:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
          derived/artifacts.dmr
-         04_Results/AHRS_Voter/webview/**
-         04_Results/Actuator_Control/webview/**
-         04_Results/Flight_Control/webview/**
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/OuterLoop_Control/webview/**
+            04_Results/AHRS_Voter/webview/**
+            04_Results/Actuator_Control/webview/**
+            04_Results/Flight_Control/webview/**
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/OuterLoop_Control/webview/**
         targetFolder: $(System.DefaultWorkingDirectory)
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -114,16 +119,16 @@ stages:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
          derived/artifacts.dmr
-         04_Results/AHRS_Voter/webview/**
-         04_Results/Actuator_Control/webview/**
-         04_Results/Flight_Control/webview/**
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/OuterLoop_Control/webview/**
-         04_Results/AHRS_Voter/model_standards_results/**
-         04_Results/Actuator_Control/model_standards_results/**
-         04_Results/Flight_Control/model_standards_results/**
-         04_Results/InnerLoop_Control/model_standards_results/**
-         04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/AHRS_Voter/webview/**
+            04_Results/Actuator_Control/webview/**
+            04_Results/Flight_Control/webview/**
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/Actuator_Control/model_standards_results/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/model_standards_results/**
         targetFolder: $(System.DefaultWorkingDirectory)/temp/
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
@@ -152,16 +157,16 @@ stages:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
        contents: |
         derived/artifacts.dmr
-        04_Results/AHRS_Voter/webview/**
-        04_Results/Actuator_Control/webview/**
-        04_Results/Flight_Control/webview/**
-        04_Results/InnerLoop_Control/webview/**
-        04_Results/OuterLoop_Control/webview/**
-        04_Results/AHRS_Voter/model_standards_results/**
-        04_Results/Actuator_Control/model_standards_results/**
-        04_Results/Flight_Control/model_standards_results/**
-        04_Results/InnerLoop_Control/model_standards_results/**
-        04_Results/OuterLoop_Control/model_standards_results/**
+           04_Results/AHRS_Voter/webview/**
+           04_Results/Actuator_Control/webview/**
+           04_Results/Flight_Control/webview/**
+           04_Results/InnerLoop_Control/webview/**
+           04_Results/OuterLoop_Control/webview/**
+           04_Results/AHRS_Voter/model_standards_results/**
+           04_Results/Actuator_Control/model_standards_results/**
+           04_Results/Flight_Control/model_standards_results/**
+           04_Results/InnerLoop_Control/model_standards_results/**
+           04_Results/OuterLoop_Control/model_standards_results/**
        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -176,21 +181,21 @@ stages:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
          derived/artifacts.dmr
-         04_Results/AHRS_Voter/webview/**
-         04_Results/Actuator_Control/webview/**
-         04_Results/Flight_Control/webview/**
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/OuterLoop_Control/webview/**
-         04_Results/AHRS_Voter/model_standards_results/**
-         04_Results/Actuator_Control/model_standards_results/**
-         04_Results/Flight_Control/model_standards_results/**
-         04_Results/InnerLoop_Control/model_standards_results/**
-         04_Results/OuterLoop_Control/model_standards_results/**
-         04_Results/AHRS_Voter/design_error_detections/**
-         04_Results/Actuator_Control/design_error_detections/**
-         04_Results/Flight_Control/design_error_detections/**
-         04_Results/InnerLoop_Control/design_error_detections/**
-         04_Results/OuterLoop_Control/design_error_detections/**
+            04_Results/AHRS_Voter/webview/**
+            04_Results/Actuator_Control/webview/**
+            04_Results/Flight_Control/webview/**
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/Actuator_Control/model_standards_results/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+            04_Results/Actuator_Control/design_error_detections/**
+            04_Results/Flight_Control/design_error_detections/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+            04_Results/OuterLoop_Control/design_error_detections/**
         targetFolder: $(System.DefaultWorkingDirectory)/temp
 
     - task: PublishPipelineArtifact@1
@@ -219,20 +224,20 @@ stages:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
        contents: |
          derived/artifacts.dmr
-         04_Results/AHRS_Voter/webview/**
-         04_Results/Actuator_Control/webview/**
-         04_Results/Flight_Control/webview/**
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/OuterLoop_Control/webview/**
-         04_Results/AHRS_Voter/model_standards_results/**
-         04_Results/Actuator_Control/model_standards_results/**
-         04_Results/Flight_Control/model_standards_results/**
-         04_Results/InnerLoop_Control/model_standards_results/**
-         04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/AHRS_Voter/webview/**
+            04_Results/Actuator_Control/webview/**
+            04_Results/Flight_Control/webview/**
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/Actuator_Control/model_standards_results/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/model_standards_results/**
        targetFolder: $(System.DefaultWorkingDirectory)   
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: cache22
+        key: cache222
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
