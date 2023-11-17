@@ -24,9 +24,9 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'FINAL|"$(Build.BuildId)"'
-        restoreKeys: |
-          FINAL
+        key: 'cache-key-job1|"$(Build.BuildId)"'
+        restoreKeys: cache-key-job2
+          
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder         
     - task: CopyFiles@2
@@ -162,6 +162,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'FINAL'
+        key: cache-key-job2
         path: |
                 $(System.DefaultWorkingDirectory)/DownloadedArtifacts
