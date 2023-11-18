@@ -4,8 +4,225 @@ trigger:
       - main
 
 stages:
-- stage: Generate_Simulink_Web_View_Actuator_Control
+- stage: Sample_Stage
+  displayName: Sample Stage
+  jobs:
+  - job: Sample_Job
+    pool: Default  
+    steps:
+     - script: |
+            echo "SAMPLE STAGE FOR PARALLEL PIPELINE"
+ 
+  
 
+
+- stage: Generate_Simulink_Web_View_AHRS_Voter
+  dependsOn: Sample_Stage
+  
+  jobs:
+  - job: Generate_Simulink_Web_View_AHRS_Voter
+    displayName: 'Generate_Simulink_Web_View_AHRS_Voter'
+    pool: Default
+    
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+      
+    - script: |
+          # Create a cache_folder in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/cache_folder
+      displayName: 'Create Cache Folder'   
+      
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: 'AHRS_111'  
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder    
+        cacheHitVar: CACHE_RESTORED      
+        
+    - task: Cache@2
+      displayName: Restore Cache from last job
+      inputs:
+        key: AHRS_222
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder   
+      condition: eq(variables.CACHE_RESTORED, 'true')   
+      
+    - task: CopyFiles@2
+      displayName: 'Move cache to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+        contents: |
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)   
+        
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+    
+    
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "cache_folder" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
+   
+   
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
+        artifact: ' AHRS_Voter_padv_artifacts_first'
+        publishLocation: 'pipeline' 
+
+
+
+- stage: Check_Modeling_Standards_AHRS_Voter
+  dependsOn: Generate_Simulink_Web_View_AHRS_Voter    
+  
+  jobs:
+  - job: Check_Modeling_Standards_AHRS_Voter
+    displayName: 'Check_Modeling_Standards_AHRS_Voter'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'AHRS_Voter_padv_artifacts_first'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+        contents: |
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+           mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+   
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/temp/
+        artifact: 'AHRS_Voter_padv_artifacts_second'
+        publishLocation: 'pipeline' 
+
+
+- stage: Detect_Design_Errors_AHRS_Voter
+  dependsOn: Check_Modeling_Standards_AHRS_Voter 
+  
+  jobs:
+  - job: Detect_Design_Errors_AHRS_Voter 
+    displayName: 'Detect_Design_Errors_AHRS_Voter'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'  
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'AHRS_Voter_padv_artifacts_second'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+            derived/artifacts.dmr
+            04_Results/AHRS_Voter/webview/**
+            04_Results/AHRS_Voter/model_standards_results/**
+            04_Results/AHRS_Voter/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+
+    - task: CopyFiles@2
+      displayName: 'move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+         derived/artifacts.dmr
+         04_Results/AHRS_Voter/webview/**
+         04_Results/AHRS_Voter/model_standards_results/**
+         04_Results/AHRS_Voter/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+       targetPath: $(System.DefaultWorkingDirectory)/temp/
+       artifact: 'AHRS_Voter_padv_artifacts'
+       publishLocation: 'pipeline'   
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/temp
+       contents: |
+         derived/artifacts.dmr
+         04_Results/AHRS_Voter/webview/**
+         04_Results/AHRS_Voter/model_standards_results/**
+         04_Results/AHRS_Voter/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)    
+        
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: AHRS_222
+        path: |
+                $(System.DefaultWorkingDirectory)/temp
+
+
+
+ 
+
+
+
+
+
+- stage: Generate_Simulink_Web_View_Actuator_Control
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_Actuator_Control
@@ -24,7 +241,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'ACT_11'  
+        key: 'ACT_111'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
@@ -32,7 +249,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache from last job
       inputs:
-        key: ACT_22
+        key: ACT_222
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder   
       condition: eq(variables.CACHE_RESTORED, 'true')   
@@ -179,6 +396,8 @@ stages:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'Actuator_Control_padv_artifacts'
        publishLocation: 'pipeline'  
+       
+    
 
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
@@ -194,10 +413,603 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: ACT_22
+        key: ACT_222
         path: |
                 $(System.DefaultWorkingDirectory)/temp
 
 
 
 
+- stage: Generate_Simulink_Web_View_Flight_Control
+  dependsOn: Sample_Stage
+  
+  jobs:
+  - job: Generate_Simulink_Web_View_Flight_Control
+    displayName: 'Generate_Simulink_Web_View_Flight_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+      
+    - script: |
+          # Create a cache_folder in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/cache_folder
+      displayName: 'Create Cache Folder'   
+      
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: 'FLC_111'  
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder    
+        cacheHitVar: CACHE_RESTORED      
+        
+    - task: Cache@2
+      displayName: Restore Cache from last job
+      inputs:
+        key: FLC_222
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder   
+      condition: eq(variables.CACHE_RESTORED, 'true')   
+      
+    - task: CopyFiles@2
+      displayName: 'Move cache to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+        contents: |
+            derived/artifacts.dmr
+            04_Results/Flight_Control/webview/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/Flight_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)  
+        
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+   
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "cache_folder" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+          derived/artifacts.dmr
+          04_Results/Flight_Control/webview/**
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
+   
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
+        artifact: ' Flight_Control_padv_artifacts_first'
+        publishLocation: 'pipeline' 
+
+
+
+- stage: Check_Modeling_Standards_Flight_Control
+  dependsOn: Generate_Simulink_Web_View_Flight_Control   
+  
+  jobs:
+  - job: Check_Modeling_Standards_Flight_Control
+    displayName: 'Check_Modeling_Standards_Flight_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'Flight_Control_padv_artifacts_first'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+        contents: |
+            derived/artifacts.dmr
+            04_Results/Flight_Control/webview/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/Flight_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+    
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/Flight_Control/webview/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/Flight_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/temp/
+        artifact: 'Flight_Control_padv_artifacts_second'
+        publishLocation: 'pipeline' 
+
+
+- stage: Detect_Design_Errors_Flight_Control
+  dependsOn: Check_Modeling_Standards_Flight_Control
+  
+  jobs:
+  - job: Detect_Design_Errors_Flight_Control
+    displayName: 'Detect_Design_Errors_Flight_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'   
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'Flight_Control_padv_artifacts_second'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+            derived/artifacts.dmr
+            04_Results/Flight_Control/webview/**
+            04_Results/Flight_Control/model_standards_results/**
+            04_Results/Flight_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+
+    - task: CopyFiles@2
+      displayName: 'move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+         derived/artifacts.dmr
+         04_Results/Flight_Control/webview/**
+         04_Results/Flight_Control/model_standards_results/**
+         04_Results/Flight_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+       targetPath: $(System.DefaultWorkingDirectory)/temp/
+       artifact: 'Flight_Control_padv_artifacts'
+       publishLocation: 'pipeline'   
+   
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+         derived/artifacts.dmr
+         04_Results/Flight_Control/webview/**
+         04_Results/Flight_Control/model_standards_results/**
+         04_Results/Flight_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)    
+       
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: FLC_222
+        path: |
+                $(System.DefaultWorkingDirectory)/temp
+
+ 
+
+
+
+
+- stage: Generate_Simulink_Web_View_InnerLoop_Control
+  dependsOn: Sample_Stage
+  
+  jobs:
+  - job: Generate_Simulink_Web_View_InnerLoop_Control
+    displayName: 'Generate_Simulink_Web_View_InnerLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+      
+    - script: |
+          # Create a cache_folder in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/cache_folder
+      displayName: 'Create Cache Folder'   
+      
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: 'Inner_111'  
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder    
+        cacheHitVar: CACHE_RESTORED      
+        
+    - task: Cache@2
+      displayName: Restore Cache from last job
+      inputs:
+        key: Inner_222
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder   
+      condition: eq(variables.CACHE_RESTORED, 'true')   
+      
+    - task: CopyFiles@2
+      displayName: 'Move cache to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+        contents: |
+            derived/artifacts.dmr
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)   
+    
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+         
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "cache_folder" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+          derived/artifacts.dmr
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
+        artifact: ' InnerLoop_Control_padv_artifacts_first'
+        publishLocation: 'pipeline' 
+
+
+- stage: Check_Modeling_Standards_InnerLoop_Control
+  dependsOn: Generate_Simulink_Web_View_InnerLoop_Control     
+  
+  jobs:
+  - job: Check_Modeling_Standards_InnerLoop_Control
+    displayName: 'Check_Modeling_Standards_InnerLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'InnerLoop_Control_padv_artifacts_first'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+        contents: |
+            derived/artifacts.dmr
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+           mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+    
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/temp/
+        artifact: 'InnerLoop_Control_padv_artifacts_second'
+        publishLocation: 'pipeline' 
+
+
+
+- stage: Detect_Design_Errors_InnerLoop_Control
+  dependsOn: Check_Modeling_Standards_InnerLoop_Control 
+  
+  jobs:
+  - job: Detect_Design_Errors_InnerLoop_Control
+    displayName: 'Detect_Design_Errors_InnerLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'  
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'InnerLoop_Control_padv_artifacts_second'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+            derived/artifacts.dmr
+            04_Results/InnerLoop_Control/webview/**
+            04_Results/InnerLoop_Control/model_standards_results/**
+            04_Results/InnerLoop_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+
+    - task: CopyFiles@2
+      displayName: 'move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+         derived/artifacts.dmr
+         04_Results/InnerLoop_Control/webview/**
+         04_Results/InnerLoop_Control/model_standards_results/**
+         04_Results/InnerLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+       targetPath: $(System.DefaultWorkingDirectory)/temp/
+       artifact: 'InnerLoop_Control_padv_artifacts'
+       publishLocation: 'pipeline'   
+       
+
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/temp
+       contents: |
+         derived/artifacts.dmr
+         04_Results/InnerLoop_Control/webview/**
+         04_Results/InnerLoop_Control/model_standards_results/**
+         04_Results/InnerLoop_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory) 
+           
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: Inner_222
+        path: |
+                $(System.DefaultWorkingDirectory)/temp 
+
+ 
+
+
+
+
+- stage: Generate_Simulink_Web_View_OuterLoop_Control
+  dependsOn: Sample_Stage
+  
+  jobs:
+  - job: Generate_Simulink_Web_View_OuterLoop_Control
+    displayName: 'Generate_Simulink_Web_View_OuterLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+    - script: |
+          # Create a cache_folder in $(System.DefaultWorkingDirectory)
+          mkdir $(System.DefaultWorkingDirectory)/cache_folder
+      displayName: 'Create Cache Folder'   
+      
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: 'Outer_111'  
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder    
+        cacheHitVar: CACHE_RESTORED      
+        
+    - task: Cache@2
+      displayName: Restore Cache from last job
+      inputs:
+        key: Outer_222
+        path: |
+                $(System.DefaultWorkingDirectory)/cache_folder   
+      condition: eq(variables.CACHE_RESTORED, 'true')   
+      
+    - task: CopyFiles@2
+      displayName: 'Move cache to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+        contents: |
+            derived/artifacts.dmr
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)    
+        
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+         mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+         
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "cache_folder" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
+        artifact: ' OuterLoop_Control_padv_artifacts_first'
+        publishLocation: 'pipeline' 
+        
+        
+
+- stage: Check_Modeling_Standards_OuterLoop_Control
+  dependsOn: Generate_Simulink_Web_View_OuterLoop_Control 
+  
+  jobs:
+  - job: Check_Modeling_Standards_OuterLoop_Control
+    displayName: 'Check_Modeling_Standards_OuterLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'OuterLoop_Control_padv_artifacts_first'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
+        contents: |
+            derived/artifacts.dmr
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+        script: |
+           mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+    
+    - task: CopyFiles@2
+      displayName: 'Move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+            derived/artifacts.dmr
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp/
+        
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/temp/
+        artifact: 'OuterLoop_Control_padv_artifacts_second'
+        publishLocation: 'pipeline' 
+        
+       
+
+- stage: Detect_Design_Errors_OuterLoop_Control
+  dependsOn: Check_Modeling_Standards_OuterLoop_Control
+  
+  jobs:
+  - job: Detect_Design_Errors_OuterLoop_Control
+    displayName: 'Detect_Design_Errors_OuterLoop_Control'
+    pool: Default
+    
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'   
+      
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'OuterLoop_Control_padv_artifacts_second'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+            derived/artifacts.dmr
+            04_Results/OuterLoop_Control/webview/**
+            04_Results/OuterLoop_Control/model_standards_results/**
+            04_Results/OuterLoop_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
+
+    - task: CopyFiles@2
+      displayName: 'move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+         derived/artifacts.dmr
+         04_Results/OuterLoop_Control/webview/**
+         04_Results/OuterLoop_Control/model_standards_results/**
+         04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+       targetPath: $(System.DefaultWorkingDirectory)/temp/
+       artifact: 'OuterLoop_Control_padv_artifacts'
+       publishLocation: 'pipeline'   
+
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/temp
+       contents: |
+         derived/artifacts.dmr
+         04_Results/OuterLoop_Control/webview/**
+         04_Results/OuterLoop_Control/model_standards_results/**
+         04_Results/OuterLoop_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)    
+ 
+    - task: Cache@2
+      displayName: Restore Cache
+      inputs:
+        key: Outer_222
+        path: |
+                $(System.DefaultWorkingDirectory)/temp
