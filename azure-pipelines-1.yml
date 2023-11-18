@@ -5,7 +5,7 @@ trigger:
 
 stages:
 - stage: Generate_Simulink_Web_View_Actuator_Control
-  dependsOn: Sample_Stage
+
   
   jobs:
   - job: Generate_Simulink_Web_View_Actuator_Control
