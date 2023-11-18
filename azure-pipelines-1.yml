@@ -79,7 +79,7 @@ stages:
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
    
    
-   - task: PublishPipelineArtifact@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
@@ -123,7 +123,7 @@ stages:
         script: |
            mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
    
-   - task: CopyFiles@2
+    - task: CopyFiles@2
       displayName: 'Move desired artifacts to "temp" folder'
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
@@ -271,7 +271,7 @@ stages:
         script: |
           mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
    
-   - task: CopyFiles@2
+    - task: CopyFiles@2
       displayName: 'Move desired artifacts to "cache_folder" folder'
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
@@ -410,7 +410,7 @@ stages:
          04_Results/Actuator_Control/design_error_detections/**
        targetFolder: $(System.DefaultWorkingDirectory)    
     
-     - task: Cache@2
+    - task: Cache@2
       displayName: Restore Cache
       inputs:
         key: ACT_2
@@ -470,7 +470,7 @@ stages:
         script: |
           mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
    
-   - task: CopyFiles@2
+    - task: CopyFiles@2
       displayName: 'Move desired artifacts to "cache_folder" folder'
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
@@ -479,7 +479,7 @@ stages:
           04_Results/Flight_Control/webview/**
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
    
-   - task: PublishPipelineArtifact@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
@@ -807,7 +807,7 @@ stages:
          04_Results/InnerLoop_Control/design_error_detections/**
        targetFolder: $(System.DefaultWorkingDirectory) 
            
-     - task: Cache@2
+    - task: Cache@2
       displayName: Restore Cache
       inputs:
         key: Inner_2
