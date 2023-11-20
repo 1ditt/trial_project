@@ -8,7 +8,6 @@ stages:
 - stage: Generate_Simulink_Web_View
 
   jobs:
-
   - job: Generate_Simulink_Web_View
     displayName: 'Generate_Simulink_Web_View'
     pool: Default
@@ -25,7 +24,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache_011'  
+        key: 'cache_0111'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
                           
@@ -34,17 +33,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            04_Results/AHRS_Voter/model_standards_results
-            04_Results/AHRS_Voter/webview
-            04_Results/Actuator_Control/model_standards_results           
-            04_Results/Actuator_Control/webview                                         
-            04_Results/Flight_Control/model_standards_results            
-            04_Results/Flight_Control/webview                 
-            04_Results/InnerLoop_Control/model_standards_results            
-            04_Results/InnerLoop_Control/webview              
-            04_Results/OuterLoop_Control/model_standards_results            
-            04_Results/OuterLoop_Control/webview
-            derived/artifacts.dmr   
+                derived/artifacts.dmr
+                04_Results/AHRS_Voter/webview/**
+                04_Results/Actuator_Control/webview/**
+                04_Results/Flight_Control/webview/**
+                04_Results/InnerLoop_Control/webview/**
+                04_Results/OuterLoop_Control/webview/**
+                04_Results/AHRS_Voter/model_standards_results/**
+                04_Results/Actuator_Control/model_standards_results/**
+                04_Results/Flight_Control/model_standards_results/**
+                04_Results/InnerLoop_Control/model_standards_results/**
+                04_Results/OuterLoop_Control/model_standards_results/** 
         targetFolder: $(System.DefaultWorkingDirectory)            
      
     - task: CmdLine@2
@@ -57,12 +56,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-          derived/artifacts.dmr
-          04_Results/AHRS_Voter/webview/**
-          04_Results/Actuator_Control/webview/**
-          04_Results/Flight_Control/webview/**
-          04_Results/InnerLoop_Control/webview/**
-          04_Results/OuterLoop_Control/webview/**
+                derived/artifacts.dmr
+                04_Results/AHRS_Voter/webview/**
+                04_Results/Actuator_Control/webview/**
+                04_Results/Flight_Control/webview/**
+                04_Results/InnerLoop_Control/webview/**
+                04_Results/OuterLoop_Control/webview/**
+                04_Results/AHRS_Voter/model_standards_results/**
+                04_Results/Actuator_Control/model_standards_results/**
+                04_Results/Flight_Control/model_standards_results/**
+                04_Results/InnerLoop_Control/model_standards_results/**
+                04_Results/OuterLoop_Control/model_standards_results/**
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
@@ -90,12 +94,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
-         derived/artifacts.dmr
-         04_Results/AHRS_Voter/webview/**
-         04_Results/Actuator_Control/webview/**
-         04_Results/Flight_Control/webview/**
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/OuterLoop_Control/webview/**
+                derived/artifacts.dmr
+                04_Results/AHRS_Voter/webview/**
+                04_Results/Actuator_Control/webview/**
+                04_Results/Flight_Control/webview/**
+                04_Results/InnerLoop_Control/webview/**
+                04_Results/OuterLoop_Control/webview/**
+                04_Results/AHRS_Voter/model_standards_results/**
+                04_Results/Actuator_Control/model_standards_results/**
+                04_Results/Flight_Control/model_standards_results/**
+                04_Results/InnerLoop_Control/model_standards_results/**
+                04_Results/OuterLoop_Control/model_standards_results/**
         targetFolder: $(System.DefaultWorkingDirectory)
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -163,6 +172,6 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'cache_011'  
+        key: 'cache_0111'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder  
