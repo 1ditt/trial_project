@@ -164,8 +164,8 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '**/junit-*.xml'
-            searchFolder: '$(System.DefaultWorkingDirectory)/'
+            testResultsFiles: '**.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
     
   
 - stage: Collect_Artifacts
