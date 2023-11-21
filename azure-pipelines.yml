@@ -90,8 +90,8 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '04_Results/**/.xml'
-            searchFolder: '$(System.DefaultWorkingDirectory)/'
+            testResultsFiles: '**.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
 - stage: Check_Modeling_Standards 
