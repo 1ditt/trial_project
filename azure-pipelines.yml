@@ -90,7 +90,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '**/junit-*.xml'
+            testResultsFiles: '04_Results/**/.xml'
             searchFolder: '$(System.DefaultWorkingDirectory)/'
 
 
