@@ -78,7 +78,13 @@ stages:
             04_Results/AHRS_Voter/model_standards_results/**
             04_Results/AHRS_Voter/design_error_detections/**
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-   
+
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |          
+                  padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
    
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
@@ -141,7 +147,12 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'AHRS_Voter_padv_artifacts_second'
         publishLocation: 'pipeline' 
-
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_RunModelStandards_AHRS_Voter_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Detect_Design_Errors_AHRS_Voter
   dependsOn: Check_Modeling_Standards_AHRS_Voter 
@@ -195,7 +206,13 @@ stages:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'AHRS_Voter_padv_artifacts'
        publishLocation: 'pipeline'   
-       
+
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_DetectDesignErrors_AHRS_Voter_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
    
 
 
@@ -297,7 +314,15 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
         artifact: ' Actuator_Control_padv_artifacts_first'
         publishLocation: 'pipeline' 
-
+         
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                  padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+          
+        
 
 - stage: Check_Modeling_Standards_Actuator_Control
   dependsOn: Generate_Simulink_Web_View_Actuator_Control   
@@ -351,7 +376,13 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'Actuator_Control_padv_artifacts_second'
         publishLocation: 'pipeline' 
-
+        
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_RunModelStandards_Actuator_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Detect_Design_Errors_Actuator_Control
   dependsOn: Check_Modeling_Standards_Actuator_Control
@@ -405,7 +436,12 @@ stages:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'Actuator_Control_padv_artifacts'
        publishLocation: 'pipeline'  
-       
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_DetectDesignErrors_Actuator_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
     
 
     
@@ -501,7 +537,12 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
         artifact: ' Flight_Control_padv_artifacts_first'
         publishLocation: 'pipeline' 
-
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
 - stage: Check_Modeling_Standards_Flight_Control
@@ -556,7 +597,12 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'Flight_Control_padv_artifacts_second'
         publishLocation: 'pipeline' 
-
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                    padv_builtin_task_RunModelStandards_Flight_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Detect_Design_Errors_Flight_Control
   dependsOn: Check_Modeling_Standards_Flight_Control
@@ -610,7 +656,13 @@ stages:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'Flight_Control_padv_artifacts'
        publishLocation: 'pipeline'   
-
+   
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
    
 - stage: Collect_Artifacts_Flight_Control
@@ -712,7 +764,13 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
         artifact: ' InnerLoop_Control_padv_artifacts_first'
         publishLocation: 'pipeline' 
-
+    
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Check_Modeling_Standards_InnerLoop_Control
   dependsOn: Generate_Simulink_Web_View_InnerLoop_Control     
@@ -766,7 +824,12 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/temp/
         artifact: 'InnerLoop_Control_padv_artifacts_second'
         publishLocation: 'pipeline' 
-
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                  padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
 - stage: Detect_Design_Errors_InnerLoop_Control
@@ -821,7 +884,12 @@ stages:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'InnerLoop_Control_padv_artifacts'
        publishLocation: 'pipeline'   
-       
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                  padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
 
 - stage: Collect_Artifacts_InnerLoop_Control
   dependsOn: Detect_Design_Errors_InnerLoop_Control
@@ -918,7 +986,12 @@ stages:
         targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
         artifact: ' OuterLoop_Control_padv_artifacts_first'
         publishLocation: 'pipeline' 
-        
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
         
 
 - stage: Check_Modeling_Standards_OuterLoop_Control
@@ -974,7 +1047,12 @@ stages:
         artifact: 'OuterLoop_Control_padv_artifacts_second'
         publishLocation: 'pipeline' 
         
-       
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                   padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
 
 - stage: Detect_Design_Errors_OuterLoop_Control
   dependsOn: Check_Modeling_Standards_OuterLoop_Control
@@ -1029,7 +1107,14 @@ stages:
        artifact: 'OuterLoop_Control_padv_artifacts'
        publishLocation: 'pipeline'   
       
-    
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                    padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+            
+          
 
 - stage: Collect_Artifacts_OuterLoop_Control
   dependsOn: Detect_Design_Errors_OuterLoop_Control
