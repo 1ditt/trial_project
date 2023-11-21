@@ -23,9 +23,20 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'cache_01111'  
+            key: 'sample_cache'  
             path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder    
+                $(System.DefaultWorkingDirectory)/cache_folder    
+            cacheHitVar: CACHE_RESTORED        
+
+        - task: Cache@2
+          displayName: Restore Cache2
+          inputs:
+            key: 'caching|$(Build.BuildId)'
+            restoreKeys: 
+                  caching
+            path: |
+                    $(System.DefaultWorkingDirectory)/cache_folder   
+          condition: eq(variables.CACHE_RESTORED, 'true')       
                               
         - task: CopyFiles@2
           displayName: 'Move cache to Respective Folders'
@@ -160,7 +171,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'cache_01111'  
+            key: 'cache|$(Build.BuildId)'  
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder 
                     
