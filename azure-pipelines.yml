@@ -86,7 +86,12 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
             artifact: 'padv_artifacts_first'
             publishLocation: 'pipeline' 
-
+            
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: '**/junit-*.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/'
 
 
 - stage: Check_Modeling_Standards 
@@ -156,7 +161,11 @@ stages:
             artifact: 'padv_artifacts_second'
             publishLocation: 'pipeline' 
 
-
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: '**/junit-*.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/'
     
   
 - stage: Collect_Artifacts
