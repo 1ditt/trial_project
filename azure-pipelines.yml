@@ -283,7 +283,7 @@ stages:
                 'padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml'
                 'padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml'
                 'padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml'
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
    
 - stage: Collect_Artifacts
