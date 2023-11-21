@@ -101,11 +101,11 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                  'padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml'
-                  'padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml'
-                  'padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml'
-                  'padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml'
-                  'padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml'
+                  padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
@@ -190,11 +190,11 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                'padv_builtin_task_RunModelStandards_Actuator_Control_JUnit.xml'
-                'padv_builtin_task_RunModelStandards_AHRS_Voter_JUnit.xml'
-                'padv_builtin_task_RunModelStandards_Flight_Control_JUnit.xml'
-                'padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml'
-                'padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml'
+                padv_builtin_task_RunModelStandards_Actuator_Control_JUnit.xml
+                padv_builtin_task_RunModelStandards_AHRS_Voter_JUnit.xml
+                padv_builtin_task_RunModelStandards_Flight_Control_JUnit.xml
+                padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml
+                padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
            
@@ -278,11 +278,11 @@ stages:
       inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                'padv_builtin_task_DetectDesignErrors_Actuator_Control_JUnit.xml'
-                'padv_builtin_task_DetectDesignErrors_AHRS_Voter_JUnit.xml'
-                'padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml'
-                'padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml'
-                'padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml'
+                padv_builtin_task_DetectDesignErrors_Actuator_Control_JUnit.xml
+                padv_builtin_task_DetectDesignErrors_AHRS_Voter_JUnit.xml
+                padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml
+                padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml
+                padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
    
