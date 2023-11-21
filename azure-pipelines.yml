@@ -23,7 +23,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'sample_cache'  
+            key: 'sample_cache1'  
             path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
             cacheHitVar: CACHE_RESTORED        
@@ -43,17 +43,22 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
             contents: |
-                    derived/artifacts.dmr
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/model_standards_results/** 
+                  derived/artifacts.dmr
+                  04_Results/AHRS_Voter/webview/**
+                  04_Results/Actuator_Control/webview/**
+                  04_Results/Flight_Control/webview/**
+                  04_Results/InnerLoop_Control/webview/**
+                  04_Results/OuterLoop_Control/webview/**
+                  04_Results/AHRS_Voter/model_standards_results/**
+                  04_Results/Actuator_Control/model_standards_results/**
+                  04_Results/Flight_Control/model_standards_results/**
+                  04_Results/InnerLoop_Control/model_standards_results/**
+                  04_Results/OuterLoop_Control/model_standards_results/**
+                  04_Results/AHRS_Voter/design_error_detections/**
+                  04_Results/Actuator_Control/design_error_detections/**
+                  04_Results/Flight_Control/design_error_detections/**
+                  04_Results/InnerLoop_Control/design_error_detections/**
+                  04_Results/OuterLoop_Control/design_error_detections/**
             targetFolder: $(System.DefaultWorkingDirectory)            
          
         - task: CmdLine@2
@@ -78,6 +83,11 @@ stages:
                     04_Results/Flight_Control/model_standards_results/**
                     04_Results/InnerLoop_Control/model_standards_results/**
                     04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/AHRS_Voter/design_error_detections/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
             targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
         - task: PublishPipelineArtifact@1
@@ -90,7 +100,12 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '**.xml'
+            testResultsFiles: |
+                  'padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml'
+                  'padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml'
+                  'padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml'
+                  'padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml'
+                  'padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml'
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
@@ -117,17 +132,22 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                    derived/artifacts.dmr
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
+                      derived/artifacts.dmr
+                      04_Results/AHRS_Voter/webview/**
+                      04_Results/Actuator_Control/webview/**
+                      04_Results/Flight_Control/webview/**
+                      04_Results/InnerLoop_Control/webview/**
+                      04_Results/OuterLoop_Control/webview/**
+                      04_Results/AHRS_Voter/model_standards_results/**
+                      04_Results/Actuator_Control/model_standards_results/**
+                      04_Results/Flight_Control/model_standards_results/**
+                      04_Results/InnerLoop_Control/model_standards_results/**
+                      04_Results/OuterLoop_Control/model_standards_results/**
+                      04_Results/AHRS_Voter/design_error_detections/**
+                      04_Results/Actuator_Control/design_error_detections/**
+                      04_Results/Flight_Control/design_error_detections/**
+                      04_Results/InnerLoop_Control/design_error_detections/**
+                      04_Results/OuterLoop_Control/design_error_detections/**
             targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
@@ -141,17 +161,22 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-             derived/artifacts.dmr
-             04_Results/AHRS_Voter/webview/**
-             04_Results/Actuator_Control/webview/**
-             04_Results/Flight_Control/webview/**
-             04_Results/InnerLoop_Control/webview/**
-             04_Results/OuterLoop_Control/webview/**
-             04_Results/AHRS_Voter/model_standards_results/**
-             04_Results/Actuator_Control/model_standards_results/**
-             04_Results/Flight_Control/model_standards_results/**
-             04_Results/InnerLoop_Control/model_standards_results/**
-             04_Results/OuterLoop_Control/model_standards_results/**
+              derived/artifacts.dmr
+              04_Results/AHRS_Voter/webview/**
+              04_Results/Actuator_Control/webview/**
+              04_Results/Flight_Control/webview/**
+              04_Results/InnerLoop_Control/webview/**
+              04_Results/OuterLoop_Control/webview/**
+              04_Results/AHRS_Voter/model_standards_results/**
+              04_Results/Actuator_Control/model_standards_results/**
+              04_Results/Flight_Control/model_standards_results/**
+              04_Results/InnerLoop_Control/model_standards_results/**
+              04_Results/OuterLoop_Control/model_standards_results/**
+              04_Results/AHRS_Voter/design_error_detections/**
+              04_Results/Actuator_Control/design_error_detections/**
+              04_Results/Flight_Control/design_error_detections/**
+              04_Results/InnerLoop_Control/design_error_detections/**
+              04_Results/OuterLoop_Control/design_error_detections/**
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
         
         - task: PublishPipelineArtifact@1
@@ -164,10 +189,103 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '**.xml'
+            testResultsFiles: |
+                'padv_builtin_task_RunModelStandards_Actuator_Control_JUnit.xml'
+                'padv_builtin_task_RunModelStandards_AHRS_Voter_JUnit.xml'
+                'padv_builtin_task_RunModelStandards_Flight_Control_JUnit.xml'
+                'padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml'
+                'padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml'
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+            
+           
+
+
+         
+- stage: Detect_Design_Errors
+  dependsOn: Check_Modeling_Standards 
+  jobs:
+  - job: Detect_Design_Errors  
+    displayName: 'Detect_Design_Errors'
+    pool: Default
+    steps:
+    - checkout: self 
+      displayName: 'Checkout Repository'     
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Artifacts'
+      inputs:
+       artifactName: 'padv_artifacts_second'
+       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+    - task: CopyFiles@2
+      displayName: 'Move Artifacts to Respective Folders'
+      inputs:
+       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
+       contents: |
+         derived/artifacts.dmr
+         04_Results/AHRS_Voter/webview/**
+         04_Results/Actuator_Control/webview/**
+         04_Results/Flight_Control/webview/**
+         04_Results/InnerLoop_Control/webview/**
+         04_Results/OuterLoop_Control/webview/**
+         04_Results/AHRS_Voter/model_standards_results/**
+         04_Results/Actuator_Control/model_standards_results/**
+         04_Results/Flight_Control/model_standards_results/**
+         04_Results/InnerLoop_Control/model_standards_results/**
+         04_Results/OuterLoop_Control/model_standards_results/**
+         04_Results/AHRS_Voter/design_error_detections/**
+         04_Results/Actuator_Control/design_error_detections/**
+         04_Results/Flight_Control/design_error_detections/**
+         04_Results/InnerLoop_Control/design_error_detections/**
+         04_Results/OuterLoop_Control/design_error_detections/**
+       targetFolder: $(System.DefaultWorkingDirectory)
+
+    - task: CmdLine@2
+      displayName: 'Launch MATLAB'
+      inputs:
+       script: |
+        mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+
+    - task: CopyFiles@2
+      displayName: 'move desired artifacts to "temp" folder'
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)
+        contents: |
+         derived/artifacts.dmr
+         04_Results/AHRS_Voter/webview/**
+         04_Results/Actuator_Control/webview/**
+         04_Results/Flight_Control/webview/**
+         04_Results/InnerLoop_Control/webview/**
+         04_Results/OuterLoop_Control/webview/**
+         04_Results/AHRS_Voter/model_standards_results/**
+         04_Results/Actuator_Control/model_standards_results/**
+         04_Results/Flight_Control/model_standards_results/**
+         04_Results/InnerLoop_Control/model_standards_results/**
+         04_Results/OuterLoop_Control/model_standards_results/**
+         04_Results/AHRS_Voter/design_error_detections/**
+         04_Results/Actuator_Control/design_error_detections/**
+         04_Results/Flight_Control/design_error_detections/**
+         04_Results/InnerLoop_Control/design_error_detections/**
+         04_Results/OuterLoop_Control/design_error_detections/**
+        targetFolder: $(System.DefaultWorkingDirectory)/temp
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Upload Artifacts' 
+      inputs:
+       targetPath: $(System.DefaultWorkingDirectory)/temp/
+       artifact: 'padv_artifacts'
+       publishLocation: 'pipeline'  
     
-  
+    - task: PublishTestResults@2
+      inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                'padv_builtin_task_DetectDesignErrors_Actuator_Control_JUnit.xml'
+                'padv_builtin_task_DetectDesignErrors_AHRS_Voter_JUnit.xml'
+                'padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml'
+                'padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml'
+                'padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml'
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit.xml'
+          
+   
 - stage: Collect_Artifacts
   dependsOn: Check_Modeling_Standards
   
@@ -187,7 +305,7 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
-           artifactName: 'padv_artifacts_second'
+           artifactName: 'padv_artifacts'
            downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
 
         
