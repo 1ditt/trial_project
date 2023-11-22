@@ -23,7 +23,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'sample_cache1'  
+            key: 'sample_cache2'  
             path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
             cacheHitVar: CACHE_RESTORED        
@@ -148,7 +148,7 @@ stages:
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-            artifact: 'padv_artifacts_first'
+            artifact: 'padv_artifacts_1'
             publishLocation: 'pipeline' 
             
         - task: PublishTestResults@2
@@ -178,7 +178,7 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
-           artifactName: 'padv_artifacts_first'
+           artifactName: 'padv_artifacts_1'
            downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
            
         - task: CopyFiles@2
@@ -291,7 +291,7 @@ stages:
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'padv_artifacts_second'
+            artifact: 'padv_artifacts_2'
             publishLocation: 'pipeline' 
 
         - task: PublishTestResults@2
@@ -321,7 +321,7 @@ stages:
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Artifacts'
       inputs:
-       artifactName: 'padv_artifacts_second'
+       artifactName: 'padv_artifacts_2'
        downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
