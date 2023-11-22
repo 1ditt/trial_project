@@ -4,13 +4,20 @@ trigger:
       - main
 
 stages:
-
+- stage: Sample_Stage
+  displayName: Sample Stage
+  jobs:
+  - job: Sample_Job
+    pool: Default  
+    steps:
+     - script: |
+            echo "SAMPLE STAGE FOR PARALLEL PIPELINE"
  
   
 
 
 - stage: Generate_Simulink_Web_View_AHRS_Voter
-  
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_AHRS_Voter
@@ -240,7 +247,7 @@ stages:
 
 
 - stage: Generate_Simulink_Web_View_Actuator_Control
-  
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_Actuator_Control
@@ -465,7 +472,7 @@ stages:
 
 
 - stage: Generate_Simulink_Web_View_Flight_Control
-  
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_Flight_Control
@@ -690,6 +697,7 @@ stages:
 
 
 - stage: Generate_Simulink_Web_View_InnerLoop_Control
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_InnerLoop_Control
@@ -912,7 +920,7 @@ stages:
 
 
 - stage: Generate_Simulink_Web_View_OuterLoop_Control
- 
+  dependsOn: Sample_Stage
   
   jobs:
   - job: Generate_Simulink_Web_View_OuterLoop_Control
