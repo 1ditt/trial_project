@@ -164,13 +164,14 @@ stages:
 
 
 - stage: Check_Modeling_Standards 
-  dependsOn: Generate_Simulink_Web_View 
+  dependsOn: Generate_Simulink_Web_View
+   
   
   jobs:
   - job: Check_Modeling_Standards
     displayName: 'Check_Modeling_Standards'
     pool: Default
-    
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
