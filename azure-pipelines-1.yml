@@ -975,10 +975,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            derived/artifacts.dmr
-            04_Results/Actuator_Control/webview/**
-            04_Results/Actuator_Control/model_standards_results/**
-            04_Results/Actuator_Control/design_error_detections/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)     
         
     - task: CmdLine@2
@@ -992,10 +999,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-            derived/artifacts.dmr
-            04_Results/Actuator_Control/webview/**
-            04_Results/Actuator_Control/model_standards_results/**
-            04_Results/Actuator_Control/design_error_detections/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
     - task: PublishPipelineArtifact@1
@@ -1037,10 +1051,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
-         derived/artifacts.dmr
-         04_Results/Actuator_Control/webview/**
-         04_Results/Actuator_Control/model_standards_results/**
-         04_Results/Actuator_Control/design_error_detections/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -1097,10 +1118,17 @@ stages:
       inputs:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
        contents: |
-            derived/artifacts.dmr
-            04_Results/Actuator_Control/webview/**
-            04_Results/Actuator_Control/model_standards_results/**
-            04_Results/Actuator_Control/design_error_detections/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -1166,15 +1194,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1190,15 +1218,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1215,10 +1243,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_GenerateSDDReport_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -1250,15 +1274,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1275,15 +1299,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1300,10 +1324,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_RunTestsPerTestCase_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_Flight_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -1335,15 +1355,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1359,15 +1379,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1384,10 +1404,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_GenerateCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateCode_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -1419,15 +1435,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1443,15 +1459,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1468,10 +1484,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_AnalyzeModelCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_Flight_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -1502,15 +1514,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1525,15 +1537,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1550,10 +1562,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_ProveCodeQuality_Actuator_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_AHRS_Voter_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_Flight_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
         
@@ -1584,15 +1592,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1608,15 +1616,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1633,10 +1641,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_RunCodeInspection_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunCodeInspection_Flight_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
                         
@@ -1670,15 +1674,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1694,15 +1698,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1719,10 +1723,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
                 padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
-                padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
 
@@ -1759,15 +1759,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -1785,15 +1785,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**         
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -1870,10 +1870,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            derived/artifacts.dmr
-            04_Results/Flight_Control/webview/**
-            04_Results/Flight_Control/model_standards_results/**
-            04_Results/Flight_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)  
         
     - task: CmdLine@2
@@ -1887,8 +1894,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-          derived/artifacts.dmr
-          04_Results/Flight_Control/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
    
     - task: PublishPipelineArtifact@1
@@ -1928,10 +1944,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
-            derived/artifacts.dmr
-            04_Results/Flight_Control/webview/**
-            04_Results/Flight_Control/model_standards_results/**
-            04_Results/Flight_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -1945,10 +1968,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-            derived/artifacts.dmr
-            04_Results/Flight_Control/webview/**
-            04_Results/Flight_Control/model_standards_results/**
-            04_Results/Flight_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp/
         
     - task: PublishPipelineArtifact@1
@@ -1987,10 +2017,17 @@ stages:
       inputs:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
        contents: |
-            derived/artifacts.dmr
-            04_Results/Flight_Control/webview/**
-            04_Results/Flight_Control/model_standards_results/**
-            04_Results/Flight_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -2004,10 +2041,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-         derived/artifacts.dmr
-         04_Results/Flight_Control/webview/**
-         04_Results/Flight_Control/model_standards_results/**
-         04_Results/Flight_Control/design_error_detections/**
+                  03_Code/**
+                  04_Results/Flight_Control/code_inspection/**
+                  04_Results/Flight_Control/code_quality/**
+                  04_Results/Flight_Control/coding_standards/**
+                  04_Results/Flight_Control/design_error_detections/**
+                  04_Results/Flight_Control/model_comparison/**
+                  04_Results/Flight_Control/model_standards_results/**
+                  04_Results/Flight_Control/system_design_description/**
+                  04_Results/Flight_Control/webview/**
+                  04_Results/test_results/**
+                  derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp
 
     - task: PublishPipelineArtifact@1
@@ -2056,15 +2100,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2080,15 +2124,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2104,11 +2148,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_AHRS_Voter_JUnit.xml
                 padv_builtin_task_GenerateSDDReport_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -2140,15 +2180,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2165,15 +2205,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2189,11 +2229,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_AHRS_Voter_JUnit.xml
                 padv_builtin_task_RunTestsPerTestCase_Flight_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -2224,15 +2260,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2248,15 +2284,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2272,11 +2308,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_AHRS_Voter_JUnit.xml
                 padv_builtin_task_GenerateCode_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -2308,15 +2340,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2332,15 +2364,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2356,11 +2388,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_AHRS_Voter_JUnit.xml
                 padv_builtin_task_AnalyzeModelCode_Flight_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -2390,15 +2418,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2413,15 +2441,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2437,11 +2465,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_ProveCodeQuality_Actuator_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_AHRS_Voter_JUnit.xml
                 padv_builtin_task_ProveCodeQuality_Flight_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
         
@@ -2472,15 +2496,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2496,15 +2520,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2520,11 +2544,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_AHRS_Voter_JUnit.xml
                 padv_builtin_task_RunCodeInspection_Flight_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
                         
@@ -2558,15 +2578,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2582,15 +2602,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2606,11 +2626,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
                 padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
 
@@ -2647,15 +2663,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2673,15 +2689,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2763,10 +2779,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            derived/artifacts.dmr
-            04_Results/InnerLoop_Control/webview/**
-            04_Results/InnerLoop_Control/model_standards_results/**
-            04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)   
     
     - task: CmdLine@2
@@ -2780,10 +2803,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-          derived/artifacts.dmr
-            04_Results/InnerLoop_Control/webview/**
-            04_Results/InnerLoop_Control/model_standards_results/**
-            04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
     - task: PublishPipelineArtifact@1
@@ -2823,10 +2853,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
-            derived/artifacts.dmr
-            04_Results/InnerLoop_Control/webview/**
-            04_Results/InnerLoop_Control/model_standards_results/**
-            04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -2840,10 +2877,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-            derived/artifacts.dmr
-            04_Results/InnerLoop_Control/webview/**
-            04_Results/InnerLoop_Control/model_standards_results/**
-            04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp/
         
     - task: PublishPipelineArtifact@1
@@ -2883,10 +2927,17 @@ stages:
       inputs:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
        contents: |
-            derived/artifacts.dmr
-            04_Results/InnerLoop_Control/webview/**
-            04_Results/InnerLoop_Control/model_standards_results/**
-            04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -2900,10 +2951,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-         derived/artifacts.dmr
-         04_Results/InnerLoop_Control/webview/**
-         04_Results/InnerLoop_Control/model_standards_results/**
-         04_Results/InnerLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp
 
     - task: PublishPipelineArtifact@1
@@ -2950,15 +3008,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -2974,15 +3032,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -2998,11 +3056,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_Flight_Control_JUnit.xml
                 padv_builtin_task_GenerateSDDReport_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -3034,15 +3088,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3059,15 +3113,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3083,11 +3137,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_Flight_Control_JUnit.xml
                 padv_builtin_task_RunTestsPerTestCase_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
@@ -3119,15 +3169,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3143,15 +3193,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3167,11 +3217,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateCode_Flight_Control_JUnit.xml
                 padv_builtin_task_GenerateCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -3203,15 +3249,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3227,15 +3273,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3251,11 +3297,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_Flight_Control_JUnit.xml
                 padv_builtin_task_AnalyzeModelCode_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
@@ -3286,15 +3328,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3309,15 +3351,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3333,11 +3375,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_ProveCodeQuality_Actuator_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_AHRS_Voter_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_Flight_Control_JUnit.xml
                 padv_builtin_task_ProveCodeQuality_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
         
@@ -3368,15 +3406,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3392,15 +3430,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3416,11 +3454,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunCodeInspection_Flight_Control_JUnit.xml
                 padv_builtin_task_RunCodeInspection_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
                         
@@ -3454,15 +3488,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3478,15 +3512,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3502,11 +3536,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
-                padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
 
@@ -3543,15 +3573,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3569,15 +3599,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3655,10 +3685,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
         contents: |
-            derived/artifacts.dmr
-            04_Results/OuterLoop_Control/webview/**
-            04_Results/OuterLoop_Control/model_standards_results/**
-            04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)    
         
     - task: CmdLine@2
@@ -3672,10 +3709,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-            derived/artifacts.dmr
-            04_Results/OuterLoop_Control/webview/**
-            04_Results/OuterLoop_Control/model_standards_results/**
-            04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
     - task: PublishPipelineArtifact@1
@@ -3715,10 +3759,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
         contents: |
-            derived/artifacts.dmr
-            04_Results/OuterLoop_Control/webview/**
-            04_Results/OuterLoop_Control/model_standards_results/**
-            04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -3732,10 +3783,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-            derived/artifacts.dmr
-            04_Results/OuterLoop_Control/webview/**
-            04_Results/OuterLoop_Control/model_standards_results/**
-            04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp/
         
     - task: PublishPipelineArtifact@1
@@ -3775,10 +3833,17 @@ stages:
       inputs:
        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
        contents: |
-            derived/artifacts.dmr
-            04_Results/OuterLoop_Control/webview/**
-            04_Results/OuterLoop_Control/model_standards_results/**
-            04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
@@ -3792,10 +3857,17 @@ stages:
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)
         contents: |
-         derived/artifacts.dmr
-         04_Results/OuterLoop_Control/webview/**
-         04_Results/OuterLoop_Control/model_standards_results/**
-         04_Results/OuterLoop_Control/design_error_detections/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp
 
     - task: PublishPipelineArtifact@1
@@ -3843,15 +3915,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3867,15 +3939,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3891,10 +3963,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateSDDReport_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_GenerateSDDReport_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
@@ -3927,15 +3995,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -3952,15 +4020,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -3976,10 +4044,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_Flight_Control_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_RunTestsPerTestCase_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
@@ -4012,15 +4076,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4036,15 +4100,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -4060,10 +4124,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_GenerateCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_GenerateCode_Flight_Control_JUnit.xml
-                padv_builtin_task_GenerateCode_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_GenerateCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
@@ -4096,15 +4156,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4120,15 +4180,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -4144,10 +4204,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_Actuator_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_AHRS_Voter_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_Flight_Control_JUnit.xml
-                padv_builtin_task_AnalyzeModelCode_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_AnalyzeModelCode_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
@@ -4179,15 +4235,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4202,15 +4258,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -4226,10 +4282,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_ProveCodeQuality_Actuator_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_AHRS_Voter_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_Flight_Control_JUnit.xml
-                padv_builtin_task_ProveCodeQuality_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_ProveCodeQuality_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
@@ -4261,15 +4313,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4285,15 +4337,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -4309,10 +4361,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_Actuator_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_AHRS_Voter_JUnit.xml
-                padv_builtin_task_RunCodeInspection_Flight_Control_JUnit.xml
-                padv_builtin_task_RunCodeInspection_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_RunCodeInspection_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
@@ -4347,15 +4395,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4371,15 +4419,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
@@ -4395,10 +4443,6 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
-                padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
@@ -4436,15 +4480,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)
@@ -4462,15 +4506,15 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                                        03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
+                    03_Code/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
