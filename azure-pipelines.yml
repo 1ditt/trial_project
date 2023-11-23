@@ -23,7 +23,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'sample_cache3'  
+            key: 'sample_cache4'  
             path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
             cacheHitVar: CACHE_RESTORED        
