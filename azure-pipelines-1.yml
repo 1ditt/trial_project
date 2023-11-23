@@ -36,7 +36,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'AHRS_Cache'  
+        key: 'AHRS_Cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
@@ -956,7 +956,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'ACT_Cache'  
+        key: 'ACT_Cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
@@ -1851,7 +1851,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'FLC_cache'  
+        key: 'FLC_cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
@@ -2760,7 +2760,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'Inner_cache'  
+        key: 'Inner_cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
@@ -3666,7 +3666,7 @@ stages:
     - task: Cache@2
       displayName: Restore Cache
       inputs:
-        key: 'Outer_cache'  
+        key: 'Outer_cache1'  
         path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
         cacheHitVar: CACHE_RESTORED      
