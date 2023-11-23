@@ -10,7 +10,7 @@ stages:
   - job: Generate_Simulink_Web_View
     displayName: 'Generate_Simulink_Web_View'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self
           displayName: 'Checkout Repository'
@@ -23,7 +23,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'sample_cache4'  
+            key: 'sample_cache5'  
             path: |
                 $(System.DefaultWorkingDirectory)/cache_folder    
             cacheHitVar: CACHE_RESTORED        
@@ -171,7 +171,7 @@ stages:
   - job: Check_Modeling_Standards
     displayName: 'Check_Modeling_Standards'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -316,7 +316,7 @@ stages:
   - job: Detect_Design_Errors  
     displayName: 'Detect_Design_Errors'
     pool: Default
-    continueOnError: true 
+
     steps:
     - checkout: self 
       displayName: 'Checkout Repository'     
@@ -460,7 +460,7 @@ stages:
   - job: Generate_SDD_Report
     displayName: 'Generate_SDD_Report'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -608,7 +608,7 @@ stages:
   - job:  Run_Tests
     displayName: '  Run_Tests'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -732,8 +732,20 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'padv_artifacts_5'
             publishLocation: 'pipeline' 
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                padv_builtin_task_RunTestsPerTestCase_AHRS_Voter_JUnit.xml
+                padv_builtin_task_RunTestsPerTestCase_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
             
-            
+
+
+
+
+
+
 - stage: Generate_Code
   dependsOn:   Run_Tests
   
@@ -741,7 +753,7 @@ stages:
   - job: Generate_Code
     displayName: 'Generate_Code'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -889,7 +901,7 @@ stages:
   - job:  Check_Coding_Standards
     displayName: ' Check_Coding_Standards'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1036,7 +1048,7 @@ stages:
   - job:   Prove_Code_Quality
     displayName: '  Prove_Code_Quality'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1158,7 +1170,17 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'padv_artifacts_8'
             publishLocation: 'pipeline' 
-
+ 
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                ProveCodeQuality_Actuator_Control_JUnit.xml
+                ProveCodeQuality_AHRS_Voter_JUnit.xml
+                ProveCodeQuality_Flight_Control_JUnit.xml
+                ProveCodeQuality_InnerLoop_Control_JUnit.xml
+                ProveCodeQuality_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
         
       
     
@@ -1171,7 +1193,7 @@ stages:
   - job:  Inspect_Code
     displayName: ' Inspect_Code'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1321,7 +1343,7 @@ stages:
   - job: Merge_Test_Results
     displayName: 'Merge_Test_Results'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1449,10 +1471,7 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
-                padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
-                padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
-                padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
@@ -1474,7 +1493,7 @@ stages:
   - job: Generate_PADV_Report
     displayName: 'Generate_PADV_Report'
     pool: Default
-    continueOnError: true 
+
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1606,7 +1625,7 @@ stages:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
     pool: Default
-    continueOnError: true 
+
     steps:
         - task: Cache@2
           displayName: Restore Cache
