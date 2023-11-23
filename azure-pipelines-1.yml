@@ -312,8 +312,8 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
-        
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
           inputs:
@@ -473,7 +473,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -553,7 +553,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -1211,7 +1211,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -1372,7 +1372,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -1452,7 +1452,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -2117,7 +2117,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -2277,7 +2277,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -2357,7 +2357,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -3025,7 +3025,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -3186,7 +3186,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -3266,7 +3266,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -3932,7 +3932,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -4093,7 +4093,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
@@ -4173,7 +4173,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
