@@ -19,7 +19,7 @@ stages:
           displayName: 'Launch MATLAB'
           inputs:
             script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);padv.util.saveArtifactDatabase('derived/dmrs/InnerLoop_Control.dmr');exit(exitCode);" 
+             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
 
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
