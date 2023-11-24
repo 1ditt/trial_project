@@ -5,18 +5,23 @@ stages:
 - stage: Build
   jobs:
   - job: BuildJob
+    pool: Default 
     steps:
     - script: echo "Building the application"
 
 - stage: Test1
+  dependsOn: Build
   jobs:
   - job: TestJob1
+    pool: Default 
     steps:
     - script: echo "Running tests - Part 1"
 
 - stage: Test2
+  dependsOn: Build
   jobs:
   - job: TestJob2
+    pool: Default  
     steps:
     - script: echo "Running tests - Part 2"
 
@@ -26,5 +31,6 @@ stages:
   - Test2
   jobs:
   - job: DeployJob
+    pool: Default 
     steps:
     - script: echo "Deploying the application after Test1 and Test2 stages"
