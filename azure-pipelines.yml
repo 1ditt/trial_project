@@ -13,80 +13,7 @@ stages:
 
     steps:
         - checkout: self
-          displayName: 'Checkout Repository'
-
-        - script: |
-              # Create a cache_folder in $(System.DefaultWorkingDirectory)
-              mkdir $(System.DefaultWorkingDirectory)/cache_folder
-          displayName: 'Create Cache Folder'   
-
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'sample_cache5'  
-            path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-            cacheHitVar: CACHE_RESTORED        
-
-        - task: Cache@2
-          displayName: Restore Cache2
-          inputs:
-            key: 'caching|$(Build.BuildId)'
-            restoreKeys: 
-                  caching
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder   
-          condition: eq(variables.CACHE_RESTORED, 'true')       
-                              
-        - task: CopyFiles@2
-          displayName: 'Move cache to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_comparison/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_comparison/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_comparison/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_comparison/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)            
+          displayName: 'Checkout Repository'         
          
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1626,13 +1553,7 @@ stages:
     pool: Default
 
     steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
+       
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
