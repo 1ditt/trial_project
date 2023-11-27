@@ -10,10 +10,83 @@ stages:
   - job: Generate_Simulink_Web_View
     displayName: 'Generate_Simulink_Web_View'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self
-          displayName: 'Checkout Repository'         
+          displayName: 'Checkout Repository'
+
+        - script: |
+              # Create a cache_folder in $(System.DefaultWorkingDirectory)
+              mkdir $(System.DefaultWorkingDirectory)/cache_folder
+          displayName: 'Create Cache Folder'   
+
+        - task: Cache@2
+          displayName: Restore Cache
+          inputs:
+            key: 'sample_cache4'  
+            path: |
+                $(System.DefaultWorkingDirectory)/cache_folder    
+            cacheHitVar: CACHE_RESTORED        
+
+        - task: Cache@2
+          displayName: Restore Cache2
+          inputs:
+            key: 'caching|$(Build.BuildId)'
+            restoreKeys: 
+                  caching
+            path: |
+                    $(System.DefaultWorkingDirectory)/cache_folder   
+          condition: eq(variables.CACHE_RESTORED, 'true')       
+                              
+        - task: CopyFiles@2
+          displayName: 'Move cache to Respective Folders'
+          inputs:
+            sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+            contents: |
+                    03_Code/**
+                    04_Results/AHRS_Voter/code_inspection/**
+                    04_Results/AHRS_Voter/code_quality/**
+                    04_Results/AHRS_Voter/coding_standards/**
+                    04_Results/AHRS_Voter/design_error_detections/**
+                    04_Results/AHRS_Voter/model_comparison/**
+                    04_Results/AHRS_Voter/model_standards_results/**
+                    04_Results/AHRS_Voter/system_design_description/**
+                    04_Results/AHRS_Voter/webview/**
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
+            targetFolder: $(System.DefaultWorkingDirectory)            
          
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -70,13 +143,15 @@ stages:
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-        
+          
+          continueOnError: true
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
             artifact: 'padv_artifacts_1'
             publishLocation: 'pipeline' 
+          continueOnError: true  
             
         - task: PublishTestResults@2
           inputs:
@@ -88,7 +163,7 @@ stages:
                   padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
                   padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
+          continueOnError: true
 
 - stage: Check_Modeling_Standards 
   dependsOn: Generate_Simulink_Web_View
@@ -98,7 +173,7 @@ stages:
   - job: Check_Modeling_Standards
     displayName: 'Check_Modeling_Standards'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -243,7 +318,7 @@ stages:
   - job: Detect_Design_Errors  
     displayName: 'Detect_Design_Errors'
     pool: Default
-
+    continueOnError: true 
     steps:
     - checkout: self 
       displayName: 'Checkout Repository'     
@@ -387,7 +462,7 @@ stages:
   - job: Generate_SDD_Report
     displayName: 'Generate_SDD_Report'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -535,7 +610,7 @@ stages:
   - job:  Run_Tests
     displayName: '  Run_Tests'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -659,19 +734,8 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'padv_artifacts_5'
             publishLocation: 'pipeline' 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_HLR_6_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_7_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_8_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_11_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_12_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_13_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
             
-
+            
 - stage: Generate_Code
   dependsOn:   Run_Tests
   
@@ -679,7 +743,7 @@ stages:
   - job: Generate_Code
     displayName: 'Generate_Code'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -827,7 +891,7 @@ stages:
   - job:  Check_Coding_Standards
     displayName: ' Check_Coding_Standards'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -974,7 +1038,7 @@ stages:
   - job:   Prove_Code_Quality
     displayName: '  Prove_Code_Quality'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1096,17 +1160,7 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'padv_artifacts_8'
             publishLocation: 'pipeline' 
- 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                ProveCodeQuality_Actuator_Control_JUnit.xml
-                ProveCodeQuality_AHRS_Voter_JUnit.xml
-                ProveCodeQuality_Flight_Control_JUnit.xml
-                ProveCodeQuality_InnerLoop_Control_JUnit.xml
-                ProveCodeQuality_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+
         
       
     
@@ -1119,7 +1173,7 @@ stages:
   - job:  Inspect_Code
     displayName: ' Inspect_Code'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1269,7 +1323,7 @@ stages:
   - job: Merge_Test_Results
     displayName: 'Merge_Test_Results'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1397,7 +1451,10 @@ stages:
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: |
+                padv_builtin_task_MergeTestResults_Actuator_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
+                padv_builtin_task_MergeTestResults_Flight_Control_JUnit.xml
+                padv_builtin_task_MergeTestResults_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
@@ -1419,7 +1476,7 @@ stages:
   - job: Generate_PADV_Report
     displayName: 'Generate_PADV_Report'
     pool: Default
-
+    continueOnError: true 
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
@@ -1551,9 +1608,15 @@ stages:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
     pool: Default
-
+    continueOnError: true 
     steps:
-       
+        - task: Cache@2
+          displayName: Restore Cache
+          inputs:
+            key: 'caching|$(Build.BuildId)'  
+            path: |
+                    $(System.DefaultWorkingDirectory)/cache_folder 
+                    
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
