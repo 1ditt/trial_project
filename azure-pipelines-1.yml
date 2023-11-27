@@ -3780,7 +3780,7 @@ stages:
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_11'
+            artifact: 'OuterLoop_Control_padv_artifacts_11'
             publishLocation: 'pipeline'      
 
 - stage: Collect_Artifacts_OuterLoop_Control
