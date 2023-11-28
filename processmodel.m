@@ -38,7 +38,7 @@ function processmodel(pm)
     if includeModelStandardsTask
         maTask = pm.addTask(padv.builtin.task.RunModelStandards());
         maTask.addInputQueries(padv.builtin.query.FindFileWithAddress( ...
-            Type='ma_config_file', Path=fullfile('tools','sampleChecks.json1234')));
+            Type='ma_config_file', Path=fullfile('tools','sampleChecks11.json')));
         % Change Report path
         maTask.ReportPath = fullfile(...
             '$DEFAULTOUTPUTDIR$','$ITERATIONARTIFACT$','model_standards_results');
