@@ -28,82 +28,12 @@ stages:
     - checkout: self
       displayName: 'Checkout Repository'
       
-    - script: |
-          # Create a cache_folder in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/cache_folder
-      displayName: 'Create Cache Folder'   
-      
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: 'AHRS_Cache444'  
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-        cacheHitVar: CACHE_RESTORED      
-        
-    - task: Cache@2
-      displayName: Restore Cache from last job
-      inputs:
-        key: 'caching_AHRS|$(Build.BuildId)'
-        restoreKeys: caching_AHRS
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: eq(variables.CACHE_RESTORED, 'true')   
-      
-    - task: CopyFiles@2
-      displayName: 'Move cache to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-        contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)   
-        
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
     
-    
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "cache_folder" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |          
-                  padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-   
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-        artifact: ' AHRS_Voter_padv_artifacts_1'
-        publishLocation: 'pipeline' 
 
 
 
@@ -119,65 +49,13 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'AHRS_Voter_padv_artifacts_1'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-        contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
            mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
-   
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'AHRS_Voter_padv_artifacts_2'
-        publishLocation: 'pipeline' 
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_RunModelStandards_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
+  
 
 - stage: Detect_Design_Errors_AHRS_Voter
   dependsOn: Check_Modeling_Standards_AHRS_Voter 
@@ -190,29 +68,7 @@ stages:
     steps:
     - checkout: self 
       displayName: 'Checkout Repository'  
-      
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'AHRS_Voter_padv_artifacts_2'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-       targetFolder: $(System.DefaultWorkingDirectory)
+    
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -220,36 +76,7 @@ stages:
        script: |
         mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
 
-    - task: CopyFiles@2
-      displayName: 'move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-       targetPath: $(System.DefaultWorkingDirectory)/temp/
-       artifact: 'AHRS_Voter_padv_artifacts_3'
-       publishLocation: 'pipeline'   
-
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_DetectDesignErrors_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
    
  
 - stage: Generate_SDD_Report_AHRS_Voter
@@ -264,66 +91,14 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_3'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_4'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
+
 
 - stage: Run_Tests_AHRS_Voter
   dependsOn:  Generate_SDD_Report_AHRS_Voter
@@ -337,28 +112,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_4'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -366,40 +119,7 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/AHRS_Voter/test_cases/AHRS_Voter_REQ_Based_Test.mldatx|ced877ff-cfb8-4fa8-9bbf-aaa29b1d926b', 'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/AHRS_Voter/test_cases/AHRS_Voter_REQ_Based_Test.mldatx|d3a72cc8-687b-44ae-a909-7eff803b455b', 'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/AHRS_Voter/test_cases/AHRS_Voter_REQ_Based_Test.mldatx|74194125-b632-41a1-b96d-b3364441277f'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
 
-        
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_5'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_HLR_11_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_12_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_13_JUnit.xml   
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
 
 - stage: Generate_Code_AHRS_Voter
   dependsOn: Run_Tests_AHRS_Voter
@@ -413,65 +133,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_5'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_6'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateCode_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
           
  
@@ -487,28 +155,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_6'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -516,38 +162,8 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_7'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
+         
 
 - stage: Prove_Code_Quality_AHRS_Voter
   dependsOn: Check_Coding_Standards_AHRS_Voter
@@ -561,64 +177,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_7'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'ProveCodeQuality|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_8'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                ProveCodeQuality_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+
           
         
 - stage: Inspect_Code_AHRS_Voter
@@ -633,67 +198,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_8'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true) ;exit(exitCode);" 
 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_9'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
-
+ 
 - stage: Merge_Test_Results_AHRS_Voter
   dependsOn: Inspect_Code_AHRS_Voter
   
@@ -706,65 +217,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_9'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.MergeTestResults|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true); exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_10'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_MergeTestResults_AHRS_Voter_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
                                     
 
 - stage: Generate_PADV_Report_AHRS_Voter
@@ -779,29 +238,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_10'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
@@ -810,52 +246,6 @@ stages:
               rptObj=padv.ProcessAdvisorReportGenerator(Format='pdf', OutputPath=fullfile(currentProject().RootFolder,'ProcessAdvisorReport'));
               rptObj.generateReport();" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'AHRS_Voter_padv_artifacts_11'
-            publishLocation: 'pipeline'    
-
-- stage: Collect_Artifacts_AHRS_Voter
-  dependsOn: Generate_PADV_Report_AHRS_Voter
-  
-  jobs:
-  - job: Collect_Artifacts_AHRS_Voter
-    displayName: 'Collect_Artifacts_AHRS_Voter'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching_AHRS|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'AHRS_Voter_padv_artifacts_11'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-  
         
 
  
@@ -875,80 +265,13 @@ stages:
     steps:
     - checkout: self
       displayName: 'Checkout Repository'
-      
-    - script: |
-          # Create a cache_folder in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/cache_folder
-      displayName: 'Create Cache Folder'   
-      
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: 'ACT_Cache444'  
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-        cacheHitVar: CACHE_RESTORED      
-        
-    - task: Cache@2
-      displayName: Restore Cache from last job
-      inputs:
-        key: 'caching_ACT|$(Build.BuildId)'
-        restoreKeys: caching_ACT
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: eq(variables.CACHE_RESTORED, 'true')   
-      
-    - task: CopyFiles@2
-      displayName: 'Move cache to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-        contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)     
-        
+            
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
           mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
    
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "cache_folder" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-        artifact: ' Actuator_Control_padv_artifacts_1'
-        publishLocation: 'pipeline' 
-         
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                  padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
           
         
 
@@ -964,63 +287,12 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'Actuator_Control_padv_artifacts_1'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-        contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)
-
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
     
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'Actuator_Control_padv_artifacts_2'
-        publishLocation: 'pipeline' 
-        
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_RunModelStandards_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Detect_Design_Errors_Actuator_Control
   dependsOn: Check_Modeling_Standards_Actuator_Control
@@ -1034,70 +306,12 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'   
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'Actuator_Control_padv_artifacts_2'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-       targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
        script: |
         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
-
-    - task: CopyFiles@2
-      displayName: 'move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-       targetPath: $(System.DefaultWorkingDirectory)/temp/
-       artifact: 'Actuator_Control_padv_artifacts_3'
-       publishLocation: 'pipeline'  
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_DetectDesignErrors_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
-    
-
- 
-
-
-
-
-
 
 
 
@@ -1113,27 +327,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_3'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1141,37 +334,7 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_4'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
- 
 - stage: Generate_Code_Actuator_Control
   dependsOn: Generate_SDD_Report_Actuator_Control
   
@@ -1184,27 +347,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_4'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1212,42 +354,8 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_5'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateCode_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
           
         
-      
-    
-
- 
 - stage:  Check_Coding_Standards_Actuator_Control
   dependsOn: Generate_Code_Actuator_Control
   
@@ -1260,27 +368,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_5'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1288,36 +375,6 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_6'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
           
         
       
@@ -1335,27 +392,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_6'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1363,39 +399,6 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'ProveCodeQuality|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
  
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_7'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                 ProveCodeQuality_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-          
-        
-      
-    
   
 
 - stage: Inspect_Code_Actuator_Control
@@ -1409,28 +412,7 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_7'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
+
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1438,35 +420,8 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true); exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**         
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_8'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_Actuator_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+
 
 - stage: Generate_PADV_Report_Actuator_Control
   dependsOn: Inspect_Code_Actuator_Control
@@ -1479,29 +434,6 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_8'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1511,51 +443,7 @@ stages:
               rptObj=padv.ProcessAdvisorReportGenerator(Format='pdf', OutputPath=fullfile(currentProject().RootFolder,'ProcessAdvisorReport'));
               rptObj.generateReport();" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Actuator_Control_padv_artifacts_9'
-            publishLocation: 'pipeline'                              
-    
-- stage: Collect_Artifacts_Actuator_Control
-  dependsOn:  Generate_PADV_Report_Actuator_Control
-  
-  jobs:
-  - job: Collect_Artifacts_Actuator_Control
-    displayName: 'Collect_Artifacts_Actuator_Control'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching_ACT|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Actuator_Control_padv_artifacts_9'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+
 
 
 
@@ -1573,43 +461,6 @@ stages:
     - checkout: self
       displayName: 'Checkout Repository'
       
-    - script: |
-          # Create a cache_folder in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/cache_folder
-      displayName: 'Create Cache Folder'   
-      
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: 'FLC_cache444'  
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-        cacheHitVar: CACHE_RESTORED      
-        
-    - task: Cache@2
-      displayName: Restore Cache from last job
-      inputs:
-        key: 'caching_FLC|$(Build.BuildId)'
-        restoreKeys: caching_FLC
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: eq(variables.CACHE_RESTORED, 'true')   
-      
-    - task: CopyFiles@2
-      displayName: 'Move cache to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-        contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)  
         
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -1617,34 +468,7 @@ stages:
         script: |
           mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
    
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "cache_folder" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-   
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-        artifact: ' Flight_Control_padv_artifacts_1'
-        publishLocation: 'pipeline' 
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+
 
 
 - stage: Check_Modeling_Standards_Flight_Control
@@ -1659,62 +483,12 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'Flight_Control_padv_artifacts_1'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-        contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)
-
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
     
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'Flight_Control_padv_artifacts_2'
-        publishLocation: 'pipeline' 
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                    padv_builtin_task_RunModelStandards_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Detect_Design_Errors_Flight_Control
   dependsOn: Check_Modeling_Standards_Flight_Control
@@ -1728,64 +502,13 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'   
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'Flight_Control_padv_artifacts_2'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-       targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
        script: |
         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
-
-    - task: CopyFiles@2
-      displayName: 'move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-       targetPath: $(System.DefaultWorkingDirectory)/temp/
-       artifact: 'Flight_Control_padv_artifacts_3'
-       publishLocation: 'pipeline'   
    
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_DetectDesignErrors_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
 
 - stage: Generate_SDD_Report_Flight_Control
   dependsOn: Detect_Design_Errors_Flight_Control 
@@ -1798,28 +521,7 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_3'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
+
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1827,36 +529,6 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_4'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
 
   
 - stage: Generate_Code_Flight_Control
@@ -1869,69 +541,12 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_4'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
-        
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_5'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateCode_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
-    
 
  
 - stage:  Check_Coding_Standards_Flight_Control
@@ -1946,27 +561,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_5'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -1974,39 +568,6 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_6'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
     
   
 - stage: Prove_Code_Quality_Flight_Control
@@ -2020,66 +581,12 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_6'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'ProveCodeQuality|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_7'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                ProveCodeQuality_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-          
-        
-      
-    
   
 
 - stage: Inspect_Code_Flight_Control
@@ -2094,62 +601,11 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_7'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true); exit(exitCode);" 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_8'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_Flight_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Generate_PADV_Report_Flight_Control
   dependsOn: Inspect_Code_Flight_Control
@@ -2163,28 +619,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_8'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -2194,55 +628,6 @@ stages:
               rptObj=padv.ProcessAdvisorReportGenerator(Format='pdf', OutputPath=fullfile(currentProject().RootFolder,'ProcessAdvisorReport'));
               rptObj.generateReport();" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'Flight_Control_padv_artifacts_9'
-            publishLocation: 'pipeline'        
-
-
-       
-- stage: Collect_Artifacts_Flight_Control
-  dependsOn: Generate_PADV_Report_Flight_Control
-  
-  jobs:
-  - job: Collect_Artifacts_Flight_Control
-    displayName: 'Collect_Artifacts_Flight_Control'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching_FLC|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'Flight_Control_padv_artifacts_9'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
-     
        
    
 
@@ -2263,43 +648,6 @@ stages:
     - checkout: self
       displayName: 'Checkout Repository'
       
-    - script: |
-          # Create a cache_folder in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/cache_folder
-      displayName: 'Create Cache Folder'   
-      
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: 'Inner_cache444'  
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-        cacheHitVar: CACHE_RESTORED      
-        
-    - task: Cache@2
-      displayName: Restore Cache from last job
-      inputs:
-        key: 'caching_Inner|$(Build.BuildId)'
-        restoreKeys: caching_Inner
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: eq(variables.CACHE_RESTORED, 'true')   
-      
-    - task: CopyFiles@2
-      displayName: 'Move cache to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-        contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)   
     
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -2307,36 +655,7 @@ stages:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
          
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "cache_folder" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-        artifact: ' InnerLoop_Control_padv_artifacts_1'
-        publishLocation: 'pipeline' 
     
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
 - stage: Check_Modeling_Standards_InnerLoop_Control
   dependsOn: Generate_Simulink_Web_View_InnerLoop_Control     
   
@@ -2348,28 +667,6 @@ stages:
     steps:
     - checkout: self 
       displayName: 'Checkout Repository'
-      
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'InnerLoop_Control_padv_artifacts_1'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-        contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -2377,34 +674,6 @@ stages:
         script: |
            mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
     
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'InnerLoop_Control_padv_artifacts_2'
-        publishLocation: 'pipeline' 
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                  padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
 - stage: Detect_Design_Errors_InnerLoop_Control
@@ -2419,69 +688,12 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'  
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'InnerLoop_Control_padv_artifacts_2'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-       targetFolder: $(System.DefaultWorkingDirectory)
-
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
       inputs:
        script: |
         mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
 
-    - task: CopyFiles@2
-      displayName: 'move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-       targetPath: $(System.DefaultWorkingDirectory)/temp/
-       artifact: 'InnerLoop_Control_padv_artifacts_3'
-       publishLocation: 'pipeline'   
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                  padv_builtin_task_DetectDesignErrors_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
-          
-        
-      
-    
-  
-
- 
  
   
 - stage: Generate_SDD_Report_InnerLoop_Control
@@ -2496,64 +708,12 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_3'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_4'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
  
 - stage: Generate_Code_InnerLoop_Control
   dependsOn: Generate_SDD_Report_InnerLoop_Control
@@ -2566,70 +726,13 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_4'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
+                                
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_5'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateCode_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
-    
-
  
 - stage:  Check_Coding_Standards_InnerLoop_Control
   dependsOn: Generate_Code_InnerLoop_Control
@@ -2642,69 +745,15 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_5'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
+                     
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_6'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
-    
+
   
 - stage: Prove_Code_Quality_InnerLoop_Control
   dependsOn: Check_Coding_Standards_InnerLoop_Control
@@ -2718,67 +767,14 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_6'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'ProveCodeQuality|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);"  
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_7'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-               ProveCodeQuality_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-          
-        
-      
-    
-  
+
 
 - stage: Inspect_Code_InnerLoop_Control
   dependsOn: Prove_Code_Quality_InnerLoop_Control
@@ -2791,64 +787,14 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_7'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
+                    
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
               mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true) ;exit(exitCode);" 
 
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_8'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_InnerLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 
 - stage: Generate_PADV_Report_InnerLoop_Control
@@ -2863,29 +809,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_8'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
@@ -2894,58 +817,6 @@ stages:
               rptObj=padv.ProcessAdvisorReportGenerator(Format='pdf', OutputPath=fullfile(currentProject().RootFolder,'ProcessAdvisorReport'));
               rptObj.generateReport();" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'InnerLoop_Control_padv_artifacts_9'
-            publishLocation: 'pipeline'      
- 
-
-
-- stage: Collect_Artifacts_InnerLoop_Control
-  dependsOn:  Generate_PADV_Report_InnerLoop_Control
-  jobs:
-  - job: Collect_Artifacts_InnerLoop_Control
-    displayName: 'Collect_Artifacts_InnerLoop_Control'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching_Inner|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'InnerLoop_Control_padv_artifacts_9'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
- 
-
- 
-
-
-
 
 - stage: Generate_Simulink_Web_View_OuterLoop_Control
   dependsOn: Sample_Stage
@@ -2958,44 +829,7 @@ stages:
     steps:
     - checkout: self
       displayName: 'Checkout Repository'
-    - script: |
-          # Create a cache_folder in $(System.DefaultWorkingDirectory)
-          mkdir $(System.DefaultWorkingDirectory)/cache_folder
-      displayName: 'Create Cache Folder'   
-      
-    - task: Cache@2
-      displayName: Restore Cache
-      inputs:
-        key: 'Outer_cache444'  
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-        cacheHitVar: CACHE_RESTORED      
-        
-    - task: Cache@2
-      displayName: Restore Cache from last job
-      inputs:
-        key: 'caching_Outer|$(Build.BuildId)'
-        restoreKeys: caching_Outer
-        path: |
-                $(System.DefaultWorkingDirectory)/cache_folder   
-      condition: eq(variables.CACHE_RESTORED, 'true')   
-      
-    - task: CopyFiles@2
-      displayName: 'Move cache to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-        contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)    
+
         
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -3003,36 +837,7 @@ stages:
         script: |
          mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
          
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "cache_folder" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-        artifact: ' OuterLoop_Control_padv_artifacts_1'
-        publishLocation: 'pipeline' 
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'    
-        
+
 
 - stage: Check_Modeling_Standards_OuterLoop_Control
   dependsOn: Generate_Simulink_Web_View_OuterLoop_Control 
@@ -3046,28 +851,6 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'OuterLoop_Control_padv_artifacts_1'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-        contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -3075,36 +858,7 @@ stages:
         script: |
            mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
     
-    - task: CopyFiles@2
-      displayName: 'Move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-        targetPath: $(System.DefaultWorkingDirectory)/temp/
-        artifact: 'OuterLoop_Control_padv_artifacts_2'
-        publishLocation: 'pipeline' 
-        
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                   padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'   
+
 
 - stage: Detect_Design_Errors_OuterLoop_Control
   dependsOn: Check_Modeling_Standards_OuterLoop_Control
@@ -3118,28 +872,6 @@ stages:
     - checkout: self 
       displayName: 'Checkout Repository'   
       
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download Artifacts'
-      inputs:
-       artifactName: 'OuterLoop_Control_padv_artifacts_2'
-       downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       
-    - task: CopyFiles@2
-      displayName: 'Move Artifacts to Respective Folders'
-      inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts1
-       contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-       targetFolder: $(System.DefaultWorkingDirectory)
 
     - task: CmdLine@2
       displayName: 'Launch MATLAB'
@@ -3147,37 +879,9 @@ stages:
        script: |
         mw -using bslcicd matlab  -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.DetectDesignErrors|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
 
-    - task: CopyFiles@2
-      displayName: 'move desired artifacts to "temp" folder'
-      inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)
-        contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-        targetFolder: $(System.DefaultWorkingDirectory)/temp
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Upload Artifacts' 
-      inputs:
-       targetPath: $(System.DefaultWorkingDirectory)/temp/
-       artifact: 'OuterLoop_Control_padv_artifacts_3'
-       publishLocation: 'pipeline'   
       
-    - task: PublishTestResults@2
-      inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                    padv_builtin_task_DetectDesignErrors_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
+
 
 - stage: Generate_SDD_Report_OuterLoop_Control
   dependsOn: Detect_Design_Errors_OuterLoop_Control
@@ -3191,65 +895,14 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_3'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
            
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateSDDReport|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_4'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateSDDReport_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
             
 
 - stage: Run_Tests_OuterLoop_Control
@@ -3264,28 +917,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_4'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -3294,43 +925,6 @@ stages:
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/OuterLoop_Control/test_cases/OuterLoop_Control_REQ_Based_Test.mldatx|862932e4-be44-4f66-9abe-fb313da73c0d', 'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/OuterLoop_Control/test_cases/OuterLoop_Control_REQ_Based_Test.mldatx|70d344b2-d65f-4872-9e4b-cef338e618a5', 'padv.builtin.task.RunTestsPerTestCase|sl_test_case|ProcessAdvisorExample|02_Models/OuterLoop_Control/test_cases/OuterLoop_Control_REQ_Based_Test.mldatx|51b0cb29-34f5-4c04-9104-4f3b0b48dda9'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_5'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunTestsPerTestCase_HLR_6_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_7_JUnit.xml
-                padv_builtin_task_RunTestsPerTestCase_HLR_8_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-
-
-
-
 
  
 - stage: Generate_Code_OuterLoop_Control
@@ -3345,28 +939,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_5'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -3374,43 +946,7 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.GenerateCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_6'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_GenerateCode_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
-    
-
- 
 - stage:  Check_Coding_Standards_OuterLoop_Control
   dependsOn: Generate_Code_OuterLoop_Control
   
@@ -3423,28 +959,6 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_6'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -3452,41 +966,7 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log  -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.AnalyzeModelCode|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_7'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_AnalyzeModelCode_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-            
-          
-        
-      
-    
   
 - stage: Prove_Code_Quality_OuterLoop_Control
   dependsOn: Check_Coding_Standards_OuterLoop_Control
@@ -3500,69 +980,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
           
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_7'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'ProveCodeQuality|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);exit(exitCode);"  
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_8'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-               ProveCodeQuality_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-          
-        
-      
-    
-  
+
 
 - stage: Inspect_Code_OuterLoop_Control
   dependsOn: Prove_Code_Quality_OuterLoop_Control
@@ -3575,29 +999,7 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_8'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
+
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -3605,43 +1007,6 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.RunCodeInspection|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true); exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_9'
-            publishLocation: 'pipeline' 
-
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_RunCodeInspection_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
-                        
-
-
-
-
-
 
 
 - stage: Merge_Test_Results_OuterLoop_Control
@@ -3655,29 +1020,7 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_9'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
+    
             
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
@@ -3685,36 +1028,7 @@ stages:
             script: |
              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);[~,exitCode] = runprocess(Tasks = {'padv.builtin.task.MergeTestResults|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = false, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true); exit(exitCode);" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_10'
-            publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                padv_builtin_task_MergeTestResults_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
 
 - stage: Generate_PADV_Report_OuterLoop_Control
   dependsOn: Merge_Test_Results_OuterLoop_Control
@@ -3726,31 +1040,8 @@ stages:
     
     steps:
         - checkout: self 
-          displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_10'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
+          displayName: 'Checkout Repository'         
+
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
@@ -3759,49 +1050,4 @@ stages:
               rptObj=padv.ProcessAdvisorReportGenerator(Format='pdf', OutputPath=fullfile(currentProject().RootFolder,'ProcessAdvisorReport'));
               rptObj.generateReport();" 
         
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-                    03_Code/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'OuterLoop_Control_padv_artifacts_11'
-            publishLocation: 'pipeline'      
-
-- stage: Collect_Artifacts_OuterLoop_Control
-  dependsOn: Generate_PADV_Report_OuterLoop_Control
-  
-  jobs:
-  - job: Collect_Artifacts_OuterLoop_Control
-    displayName: 'Collect_Artifacts_OuterLoop_Control'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'caching_Outer|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'OuterLoop_Control_padv_artifacts_11'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
   
