@@ -6,42 +6,103 @@ trigger:
 
 
 stages:
-- stage: Generating_Pipeline
+- stage: A
 
   jobs:
-  - job: Generating_Pipeline
-    displayName: 'Generate Pipeline'
+  - job: A
+    displayName: 'A'
+    pool: Default
+
+    steps: 
+      - script: |
+          echo "A"
+        displayName: 'Echo '
+     
+
+- stage: B
+  dependsOn: A
+  jobs:
+  - job: B
+    displayName: 'B'
     pool: Default
 
     steps:
-        - checkout: self
-          displayName: 'Checkout Repository'  
+        - script: |
+            echo "B"
+          displayName: 'Echo ' 
+    
+- stage: C
+  dependsOn: A
+  jobs:
+  - job: C
+    displayName: 'C'
+    pool: Default
 
-        - bash: |
-            cp azure-pipelines.yaml abc.yaml
-          displayName: 'Copy YAML content'
-          workingDirectory: $(Build.SourcesDirectory) 
+    steps:
+        - script: |
+            echo "C"
+          displayName: 'Echo' 
+        
+- stage: D
+  dependsOn: A
+  jobs:
+  - job: D
+    displayName: 'D'
+    pool: Default
 
-        - task: PublishPipelineArtifact@1
-          displayName: 'Upload Artifacts' 
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/abc.yaml
-            artifact: 'artifacts_1'
-            publishLocation: 'pipeline'   
+    steps:
+        - script: |
+            echo "D"
+          displayName: 'Echo' 
+        
+      
+- stage: E
+  dependsOn: B
+  jobs:
+  - job: B
+    displayName: 'B'
+    pool: Default
+
+    steps:
+        - script: |
+            echo "E"
+          displayName: 'Echo' 
+
+- stage: F
+  dependsOn: C
+  jobs:
+  - job: F
+    displayName: 'F'
+    pool: Default
+
+    steps:
+        - script: |
+            echo "F"
+          displayName: 'Echo' 
+        
+      
+- stage: G
+  dependsOn: D
+  jobs:
+  - job: G
+    displayName: 'G'
+    pool: Default
+
+    steps:
+        - script: |
+            echo "G"
+          displayName: 'Echo' 
   
-
-- stage: Executing_Pipeline
-
+- stage: H
+  dependsOn:
+   - E
+   - F
   jobs:
-  - job: Executing_Pipeline
-    displayName: 'Execute Pipeline'
+  - job: H
+    displayName: 'H'
     pool: Default
 
     steps:
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'artifacts_1'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-
-        - template: abc.yml      
+        - script: |
+            echo "H"
+          displayName: 'Echo' 
