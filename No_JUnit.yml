@@ -82,7 +82,9 @@ stages:
         
       
 - stage: G
-  dependsOn: D
+  dependsOn:
+   - D
+   - C
   jobs:
   - job: G
     displayName: 'G'
