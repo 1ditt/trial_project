@@ -55,20 +55,20 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/04_Results/AHRS_Voter/webview/**
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/AHRS_Voter/webview/
             artifact: 'padv_artifacts_2'
             publishLocation: 'pipeline' 
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Actuator_Control/webview/**
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Actuator_Control/webview/
             artifact: 'padv_artifacts_3'
             publishLocation: 'pipeline' 
           
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Flight_Control/webview/**
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Flight_Control/webview/
             artifact: 'padv_artifacts_4'
             publishLocation: 'pipeline' 
           
@@ -76,14 +76,14 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/04_Results/InnerLoop_Control/webview/**
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/InnerLoop_Control/webview/
             artifact: 'padv_artifacts_5'
             publishLocation: 'pipeline' 
                         
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/04_Results/OuterLoop_Control/webview/**
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/OuterLoop_Control/webview/
             artifact: 'padv_artifacts_6'
             publishLocation: 'pipeline' 
             
