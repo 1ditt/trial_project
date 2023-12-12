@@ -3,108 +3,50 @@ trigger:
     include:
       - main
 
-
-
 stages:
-- stage: A
+- stage: Generate_Simulink_Web_View
 
   jobs:
-  - job: A
-    displayName: 'A'
-    pool: Default
-
-    steps: 
-      - script: |
-          echo "A"
-        displayName: 'Echo '
-     
-
-- stage: B
-  dependsOn: A
-  jobs:
-  - job: B
-    displayName: 'B'
+  - job: Generate_Simulink_Web_View
+    displayName: 'Generate_Simulink_Web_View'
     pool: Default
 
     steps:
-        - script: |
-            echo "B"
-          displayName: 'Echo ' 
-    
-- stage: C
-  dependsOn: A
-  jobs:
-  - job: C
-    displayName: 'C'
-    pool: Default
+        - checkout: self
+          displayName: 'Checkout Repository'
 
-    steps:
         - script: |
-            echo "C"
-          displayName: 'Echo' 
+              # Create a cache_folder in $(System.DefaultWorkingDirectory)
+              mkdir $(System.DefaultWorkingDirectory)/cache_folder
+          displayName: 'Create Cache Folder'   
+          
+        - task: CmdLine@2
+          displayName: 'Launch MATLAB'
+          inputs:
+            script: |
+              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
         
-- stage: D
-  dependsOn: A
-  jobs:
-  - job: D
-    displayName: 'D'
-    pool: Default
-
-    steps:
-        - script: |
-            echo "D"
-          displayName: 'Echo' 
+        - task: CopyFiles@2
+          displayName: 'Move desired artifacts to "cache_folder" folder'
+          inputs:
+            sourceFolder: $(System.DefaultWorkingDirectory)
+            contents: |
+                    derived/artifacts.dmr
+                    04_Results/AHRS_Voter/webview/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/AHRS_Voter/model_standards_results/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+            targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
-      
-- stage: E
-  dependsOn: B
-  jobs:
-  - job: B
-    displayName: 'B'
-    pool: Default
-
-    steps:
-        - script: |
-            echo "E"
-          displayName: 'Echo' 
-
-- stage: F
-  dependsOn: C
-  jobs:
-  - job: F
-    displayName: 'F'
-    pool: Default
-
-    steps:
-        - script: |
-            echo "F"
-          displayName: 'Echo' 
-        
-      
-- stage: G
-  dependsOn:
-   - D
-   - C
-  jobs:
-  - job: G
-    displayName: 'G'
-    pool: Default
-
-    steps:
-        - script: |
-            echo "G"
-          displayName: 'Echo' 
-  
-- stage: H
-  dependsOn:
-   - E
-   - F
-  jobs:
-  - job: H
-    displayName: 'H'
-    pool: Default
-
-    steps:
-        - script: |
-            echo "H"
-          displayName: 'Echo' 
+        - task: PublishPipelineArtifact@1
+          displayName: 'Upload Artifacts' 
+          inputs:
+            targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
+            artifact: 'padv_artifacts_1'
+            publishLocation: 'pipeline' 
