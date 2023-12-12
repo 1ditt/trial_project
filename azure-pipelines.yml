@@ -21,22 +21,14 @@ stages:
           displayName: 'Create Cache Folder'   
 
         - task: Cache@2
-          displayName: Restore Cache
-          inputs:
-            key: 'sample_cache'  
-            path: |
-                $(System.DefaultWorkingDirectory)/cache_folder    
-            cacheHitVar: CACHE_RESTORED        
-
-        - task: Cache@2
           displayName: Restore Cache2
           inputs:
             key: 'caching|$(Build.BuildId)'
             restoreKeys: 
-                  pre_caching
+                  padv_cache
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder   
-          condition: eq(variables.CACHE_RESTORED, 'false')       
+    
                               
         - task: CopyFiles@2
           displayName: 'Move cache to Respective Folders'
@@ -161,11 +153,6 @@ stages:
             artifact: 'padv_artifacts_second'
             publishLocation: 'pipeline' 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: '**/junit-*.xml'
-            searchFolder: '$(System.DefaultWorkingDirectory)/'
     
   
 - stage: Collect_Artifacts
@@ -180,7 +167,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'caching|$(Build.BuildId)'  
+            key: 'padv_cache|$(Build.BuildId)'  
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder 
                     
