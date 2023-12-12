@@ -20,34 +20,7 @@ stages:
               mkdir $(System.DefaultWorkingDirectory)/cache_folder
           displayName: 'Create Cache Folder'   
 
-        - task: Cache@2
-          displayName: Restore Cache2
-          inputs:
-            key: 'caching|$(Build.BuildId)'
-            restoreKeys: 
-                  padv_cache
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder   
-    
-                              
-        - task: CopyFiles@2
-          displayName: 'Move cache to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-            contents: |
-                    derived/artifacts.dmr
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/model_standards_results/** 
-            targetFolder: $(System.DefaultWorkingDirectory)            
-         
+
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
@@ -75,107 +48,44 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-            artifact: 'padv_artifacts_first'
+            targetPath: $(System.DefaultWorkingDirectory)/derived/
+            artifact: 'padv_artifacts_1'
             publishLocation: 'pipeline' 
             
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: '**/junit-*.xml'
-            searchFolder: '$(System.DefaultWorkingDirectory)/'
-
-
-- stage: Check_Modeling_Standards 
-  dependsOn: Generate_Simulink_Web_View 
-  
-  jobs:
-  - job: Check_Modeling_Standards
-    displayName: 'Check_Modeling_Standards'
-    pool: Default
-    
-    steps:
-        - checkout: self 
-          displayName: 'Checkout Repository'
-          
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-           artifactName: 'padv_artifacts_first'
-           downloadPath: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-           
-        - task: CopyFiles@2
-          displayName: 'Move Artifacts to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/DownloadedArtifacts
-            contents: |
-                    derived/artifacts.dmr
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-            targetFolder: $(System.DefaultWorkingDirectory)
-            
-        - task: CmdLine@2
-          displayName: 'Launch MATLAB'
-          inputs:
-            script: |
-             mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-        
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "temp" folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-             derived/artifacts.dmr
-             04_Results/AHRS_Voter/webview/**
-             04_Results/Actuator_Control/webview/**
-             04_Results/Flight_Control/webview/**
-             04_Results/InnerLoop_Control/webview/**
-             04_Results/OuterLoop_Control/webview/**
-             04_Results/AHRS_Voter/model_standards_results/**
-             04_Results/Actuator_Control/model_standards_results/**
-             04_Results/Flight_Control/model_standards_results/**
-             04_Results/InnerLoop_Control/model_standards_results/**
-             04_Results/OuterLoop_Control/model_standards_results/**
-            targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/temp/
-            artifact: 'padv_artifacts_second'
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/AHRS_Voter/webview/**
+            artifact: 'padv_artifacts_2'
             publishLocation: 'pipeline' 
-
-    
-  
-- stage: Collect_Artifacts
-  dependsOn: Check_Modeling_Standards
-  
-  jobs:
-  - job: Collect_Artifacts
-    displayName: 'Collect_Artifacts'
-    pool: Default
-    
-    steps:
-        - task: Cache@2
-          displayName: Restore Cache
+        - task: PublishPipelineArtifact@1
+          displayName: 'Upload Artifacts' 
           inputs:
-            key: 'padv_cache|$(Build.BuildId)'  
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder 
-                    
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Actuator_Control/webview/**
+            artifact: 'padv_artifacts_3'
+            publishLocation: 'pipeline' 
+          
+        - task: PublishPipelineArtifact@1
+          displayName: 'Upload Artifacts' 
           inputs:
-           artifactName: 'padv_artifacts_second'
-           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/Flight_Control/webview/**
+            artifact: 'padv_artifacts_4'
+            publishLocation: 'pipeline' 
+          
 
-        
-         
+        - task: PublishPipelineArtifact@1
+          displayName: 'Upload Artifacts' 
+          inputs:
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/InnerLoop_Control/webview/**
+            artifact: 'padv_artifacts_5'
+            publishLocation: 'pipeline' 
+                        
+        - task: PublishPipelineArtifact@1
+          displayName: 'Upload Artifacts' 
+          inputs:
+            targetPath: $(System.DefaultWorkingDirectory)/04_Results/OuterLoop_Control/webview/**
+            artifact: 'padv_artifacts_6'
+            publishLocation: 'pipeline' 
+            
+            
+
