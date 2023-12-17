@@ -411,8 +411,7 @@ stages:
 
 
 - stage: Generate_Simulink_Web_View_Flight_Control
-  dependsOn:''
-  
+  dependsOn: ''
   jobs:
   - job: Generate_Simulink_Web_View_Flight_Control
     displayName: 'Generate_Simulink_Web_View_Flight_Control'
