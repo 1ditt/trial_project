@@ -33,7 +33,7 @@ stages:
                     04_Results/OuterLoop_Control/model_standards_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-          condition: always  
+          condition: always()  
         
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
@@ -41,7 +41,7 @@ stages:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Check_Modeling_Standards_padv_artifacts'
             publishLocation: 'pipeline' 
-          condition: always  
+          condition: always()  
 
         - task: PublishTestResults@2
           inputs:
@@ -53,5 +53,5 @@ stages:
                 padv_builtin_task_RunModelStandards_InnerLoop_Control_JUnit.xml
                 padv_builtin_task_RunModelStandards_OuterLoop_Control_JUnit.xml
             searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-          condition: always
+          condition: always()
   
