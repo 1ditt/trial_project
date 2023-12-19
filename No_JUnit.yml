@@ -19,7 +19,67 @@ stages:
               # Create a cache_folder in $(System.DefaultWorkingDirectory)
               mkdir $(System.DefaultWorkingDirectory)/cache_folder
           displayName: 'Create Cache Folder'   
-          
+    
+
+        - task: Cache@2
+          displayName: Restore Cache2
+          inputs:
+            key: 'caching|$(Build.BuildId)'
+            restoreKeys: 
+                  padv_caches1
+            path: |
+                    $(System.DefaultWorkingDirectory)/cache_folder        
+                              
+        - task: CopyFiles@2
+          displayName: 'Move cache to Respective Folders'
+          inputs:
+            sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
+            contents: |
+                    03_Code/**
+                    04_Results/AHRS_Voter/code_inspection/**
+                    04_Results/AHRS_Voter/code_quality/**
+                    04_Results/AHRS_Voter/coding_standards/**
+                    04_Results/AHRS_Voter/design_error_detections/**
+                    04_Results/AHRS_Voter/model_comparison/**
+                    04_Results/AHRS_Voter/model_standards_results/**
+                    04_Results/AHRS_Voter/system_design_description/**
+                    04_Results/AHRS_Voter/webview/**
+                    04_Results/Actuator_Control/code_inspection/**
+                    04_Results/Actuator_Control/code_quality/**
+                    04_Results/Actuator_Control/coding_standards/**
+                    04_Results/Actuator_Control/design_error_detections/**
+                    04_Results/Actuator_Control/model_comparison/**
+                    04_Results/Actuator_Control/model_standards_results/**
+                    04_Results/Actuator_Control/system_design_description/**
+                    04_Results/Actuator_Control/webview/**
+                    04_Results/Flight_Control/code_inspection/**
+                    04_Results/Flight_Control/code_quality/**
+                    04_Results/Flight_Control/coding_standards/**
+                    04_Results/Flight_Control/design_error_detections/**
+                    04_Results/Flight_Control/model_comparison/**
+                    04_Results/Flight_Control/model_standards_results/**
+                    04_Results/Flight_Control/system_design_description/**
+                    04_Results/Flight_Control/webview/**
+                    04_Results/InnerLoop_Control/code_inspection/**
+                    04_Results/InnerLoop_Control/code_quality/**
+                    04_Results/InnerLoop_Control/coding_standards/**
+                    04_Results/InnerLoop_Control/design_error_detections/**
+                    04_Results/InnerLoop_Control/model_comparison/**
+                    04_Results/InnerLoop_Control/model_standards_results/**
+                    04_Results/InnerLoop_Control/system_design_description/**
+                    04_Results/InnerLoop_Control/webview/**
+                    04_Results/OuterLoop_Control/code_inspection/**
+                    04_Results/OuterLoop_Control/code_quality/**
+                    04_Results/OuterLoop_Control/coding_standards/**
+                    04_Results/OuterLoop_Control/design_error_detections/**
+                    04_Results/OuterLoop_Control/model_comparison/**
+                    04_Results/OuterLoop_Control/model_standards_results/**
+                    04_Results/OuterLoop_Control/system_design_description/**
+                    04_Results/OuterLoop_Control/webview/**
+                    04_Results/test_results/**
+                    derived/artifacts.dmr
+            targetFolder: $(System.DefaultWorkingDirectory)            
+         
         - task: CmdLine@2
           displayName: 'Launch MATLAB'
           inputs:
@@ -31,22 +91,49 @@ stages:
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                    derived/artifacts.dmr
                     04_Results/AHRS_Voter/webview/**
                     04_Results/Actuator_Control/webview/**
                     04_Results/Flight_Control/webview/**
                     04_Results/InnerLoop_Control/webview/**
                     04_Results/OuterLoop_Control/webview/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
+                    derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
         
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
-            artifact: 'padv_artifacts_1'
+            artifact: ' Generate_Simulink_Web_View_padv_artifacts'
             publishLocation: 'pipeline' 
+            
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+                  padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
+                  padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
+            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
+
+
+- stage: Check_Modeling_Standards 
+  dependsOn: Generate_Simulink_Web_View
+   
+  
+  jobs:
+  - job: Check_Modeling_Standards
+    displayName: 'Check_Modeling_Standards'
+    pool: Default
+
+    steps:
+        - checkout: self 
+          displayName: 'Checkout Repository'
+          
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Artifacts'
+          inputs:
+           artifactName: 'Generate_Simulink_Web_View_padv_artifacts'          
+           downloadPath: $(System.DefaultWorkingDirectory)/cache_folder    
+           
