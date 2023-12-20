@@ -40,8 +40,21 @@ stages:
               }
             failNoOp: true
 
-
-
+        
+        - task: ArtifactoryGenericDownload@3
+          inputs:
+            connection: 'BasicAuth-artifactory'
+            specSource: 'taskConfiguration'
+            fileSpec: |
+              {
+                "files": [
+                  {
+                    "pattern":"myrepo-generic-local/upload/**",
+                    "target": "$(System.DefaultWorkingDirectory)/temp_down"
+                  }
+                ]
+              }
+            failNoOp: true
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
           inputs:
