@@ -4,17 +4,17 @@ trigger:
       - main
 
 stages:
-- stage: Generate_Simulink_Web_View
+- stage: Restore_Cache
 
   jobs:
-  - job: Generate_Simulink_Web_View
-    displayName: 'Generate_Simulink_Web_View'
+  - job: Restore_Cache
+    displayName: 'Restore_Cache'
     pool: Default
 
     steps:
         - checkout: self
           displayName: 'Checkout Repository'
-
+        
         - script: |
               # Create a cache_folder in $(System.DefaultWorkingDirectory)
               mkdir $(System.DefaultWorkingDirectory)/cache_folder
@@ -78,14 +78,8 @@ stages:
                     04_Results/OuterLoop_Control/webview/**
                     04_Results/test_results/**
                     derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)            
-         
-        - task: CmdLine@2
-          displayName: 'Launch MATLAB'
-          inputs:
-            script: |
-              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-        
+            targetFolder: $(System.DefaultWorkingDirectory)  
+
         - task: ArtifactoryGenericUpload@2
           inputs:
             artifactoryService: 'BasicAuth-artifactory'
@@ -267,7 +261,75 @@ stages:
                   }
                 ]
               }
-            failNoOp: true
+            failNoOp: false
+
+- stage: Generate_Simulink_Web_View
+  dependsOn: Restore_Cache
+  jobs:
+  - job: Generate_Simulink_Web_View
+    displayName: 'Generate_Simulink_Web_View'
+    pool: Default
+
+    steps:
+        - checkout: self
+          displayName: 'Checkout Repository'
+
+        - task: ArtifactoryGenericDownload@3
+          inputs:
+            connection: 'BasicAuth-artifactory'
+            specSource: 'taskConfiguration'
+            fileSpec: |
+              {
+                "files": [
+                  {
+                    "pattern": "myrepo-generic-local/**",
+                    "target": "$(System.DefaultWorkingDirectory)/"
+                  }
+                ]
+              }
+            failNoOp: false
+         
+         
+        - task: CmdLine@2
+          displayName: 'Launch MATLAB'
+          inputs:
+            script: |
+              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+        
+        - task: ArtifactoryGenericUpload@2
+          inputs:
+            artifactoryService: 'BasicAuth-artifactory'
+            specSource: 'taskConfiguration'
+            fileSpec: |
+              {
+                "files": [
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/derived/artifacts.dmr",
+                    "target": "myrepo-generic-local/"
+                  },
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/04_Results/AHRS_Voter/webview/**",
+                    "target": "myrepo-generic-local/"
+                  },
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/04_Results/Actuator_Control/webview/**",
+                    "target": "myrepo-generic-local/"
+                  },
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/04_Results/Flight_Control/webview/**",
+                    "target": "myrepo-generic-local/"
+                  },
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/04_Results/InnerLoop_Control/webview/**",
+                    "target": "myrepo-generic-local/"
+                  },
+                  {
+                    "pattern": "$(System.DefaultWorkingDirectory)/04_Results/OuterLoop_Control/webview/**",
+                    "target": "myrepo-generic-local/"
+                  }
+                ]
+              }
+            failNoOp: false
 
             
         - task: PublishTestResults@2
@@ -308,7 +370,7 @@ stages:
                   }
                 ]
               }
-            failNoOp: true
+            failNoOp: false
            
 
             
