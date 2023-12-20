@@ -14,7 +14,12 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-        
+
+        - script: |
+              mkdir -p "$(System.DefaultWorkingDirectory)/temp"
+              echo "Created a new 'temp' folder in $(System.DefaultWorkingDirectory)."
+          displayName: 'Create Temp Folder in Default Working Directory'
+          
         - script: |
             echo "Hello World" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
             echo "Created hello_world.txt in the temp directory."
