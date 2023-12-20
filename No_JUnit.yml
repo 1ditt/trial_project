@@ -50,7 +50,7 @@ stages:
                 "files": [
                   {
                     "pattern": "myrepo-generic-local/**",
-                    "target": "$(System.DefaultWorkingDirectory)/work"
+                    "target": "$(System.DefaultWorkingDirectory)/work/"
                   }
                 ]
               }
