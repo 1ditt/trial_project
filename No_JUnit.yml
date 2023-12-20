@@ -34,13 +34,13 @@ stages:
                 "files": [
                   {
                     "pattern": "$(System.DefaultWorkingDirectory)/temp/**",
-                    "target": "myrepo-generic-local/upload/"
+                    "target": "myrepo-generic-local/"
                   }
                 ]
               }
             failNoOp: true
 
-        
+  
         - task: ArtifactoryGenericDownload@3
           inputs:
             connection: 'BasicAuth-artifactory'
@@ -49,7 +49,7 @@ stages:
               {
                 "files": [
                   {
-                    "pattern": "myrepo-generic-local/upload/**",
+                    "pattern": "myrepo-generic-local/**",
                     "target": "$(System.DefaultWorkingDirectory)/work"
                   }
                 ]
