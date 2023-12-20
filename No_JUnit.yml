@@ -29,7 +29,7 @@ stages:
               {
                 "files": [
                   {
-                      "pattern":"$(System.DefaultWorkingDirectory)/temp/**/*"
+                    "pattern" : "$(System.DefaultWorkingDirectory)/temp/**/*"
                     "target": "myrepo-generic-local/upload/"
                   }
                 ]
