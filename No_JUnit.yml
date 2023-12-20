@@ -49,7 +49,7 @@ stages:
               {
                 "files": [
                   {
-                    "pattern":"myrepo-generic-local/upload/**",
+                    "pattern": "myrepo-generic-local/upload/**",
                     "target": "$(System.DefaultWorkingDirectory)/temp_down"
                   }
                 ]
