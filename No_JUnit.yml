@@ -14,12 +14,11 @@ stages:
     steps:
         - checkout: self 
           displayName: 'Checkout Repository'
-
-        - task: CmdLine@2
-          displayName: 'Launch MATLAB'
-          inputs:
-              script: |
-                  mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+        
+        - script: |
+            echo "Hello World" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
+            echo "Created hello_world.txt in the temp directory."
+          displayName: 'Create Hello World Text File'
 
         - task: ArtifactoryGenericUpload@2
           inputs:
@@ -29,7 +28,7 @@ stages:
               {
                 "files": [
                   {
-                    "pattern": "$(System.DefaultWorkingDirectory)/temp/**/*",
+                    "pattern": "$(System.DefaultWorkingDirectory)/temp/**",
                     "target": "myrepo-generic-local/upload/"
                   }
                 ]
