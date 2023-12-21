@@ -1432,11 +1432,12 @@ stages:
   
 - stage: Collect_Artifacts
   dependsOn: Generate_PADV_Report
+  condition: succeededOrFailed()
   jobs:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
     pool: Default
-
+    condition: succeededOrFailed()
     steps:
         - task: Cache@2
           displayName: Restore Cache
