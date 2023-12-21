@@ -19,6 +19,7 @@ stages:
           inputs:
             script: |
               echo Write your commands here
+              echo $0
               set
 
         - task: RunMATLABCommand@0
