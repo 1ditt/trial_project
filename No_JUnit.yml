@@ -4,27 +4,52 @@ trigger:
       - main
 
 stages:
+- stage: Generate_Simulink_Web_View
+
+  jobs:
+  - job: Generate_Simulink_Web_View
+    displayName: 'Generate_Simulink_Web_View'
+    pool: Default
+
+    steps:
+        - checkout: self
+          displayName: 'Checkout Repository'
+
+        - script: |
+              mkdir -p "$(System.DefaultWorkingDirectory)/temp"
+              echo "Created a new 'temp' folder in $(System.DefaultWorkingDirectory)."
+          displayName: 'Create Temp Folder in Default Working Directory'
+          
+        - script: |
+            echo "Hello World test455" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
+            echo "Created hello_world.txt in the temp directory."
+          displayName: 'Create Hello World Text File'
+
+        - task: CopyFiles@2
+          displayName: 'Move "temp" to network folder'
+          inputs:
+            sourceFolder: $(System.DefaultWorkingDirectory)
+            contents: |
+               temp/**
+            targetFolder: /mathworks/devel/sandbox/vandita/
+      
+
+
 - stage: Check_Modeling_Standards 
-  
+  dependsOn: Generate_Simulink_Web_View
+   
   jobs:
   - job: Check_Modeling_Standards
     displayName: 'Check_Modeling_Standards'
     pool: Default
 
     steps:
-        - checkout: self 
-          displayName: 'Checkout Repository'
-
-        - task: CmdLine@2
-          inputs:
-            script: |
-              pwd
-             
-
-        - task: RunMATLABCommand@0
-          inputs:
-            command: "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx','padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx','padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx','padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx','padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-            startupOptions: '-nodesktop -logfile output.log'
-
+      - checkout: self 
+        displayName: 'Checkout Repository'
         
-        
+      - task: CopyFiles@2
+        displayName: 'Move "temp" from network folder'
+        inputs:
+          sourceFolder: '/mathworks/devel/sandbox/vandita/temp'
+          contents: 'hello_world.txt'  
+          targetFolder: '$(System.DefaultWorkingDirectory)'
