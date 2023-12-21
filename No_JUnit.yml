@@ -51,9 +51,9 @@ stages:
         - task: CopyFiles@2
           displayName: 'Move "temp" from network folder'
           inputs:
-            sourceFolder: /mathworks/devel/sandbox/vandita/
+            sourceFolder: /mathworks/devel/sandbox/vandita/temp/
             contents: |
-                temp
+                hello_world.txt
             targetFolder: $(System.DefaultWorkingDirectory)
            
         
