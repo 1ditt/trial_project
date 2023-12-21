@@ -205,14 +205,14 @@ stages:
                     04_Results/OuterLoop_Control/model_standards_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-        
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Check_Modeling_Standards_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
