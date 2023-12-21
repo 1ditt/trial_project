@@ -16,132 +16,21 @@ stages:
           displayName: 'Checkout Repository'
 
         - script: |
-              # Create a cache_folder in $(System.DefaultWorkingDirectory)
-              mkdir $(System.DefaultWorkingDirectory)/cache_folder
-          displayName: 'Create Cache Folder'   
-    
+              mkdir -p "$(System.DefaultWorkingDirectory)/temp"
+              echo "Created a new 'temp' folder in $(System.DefaultWorkingDirectory)."
+          displayName: 'Create Temp Folder in Default Working Directory'
+          
+        - script: |
+            echo "Hello World" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
+            echo "Created hello_world.txt in the temp directory."
+          displayName: 'Create Hello World Text File'
 
-        - task: Cache@2
-          displayName: Restore Cache2
-          inputs:
-            key: 'caching|$(Build.BuildId)'
-            restoreKeys: 
-                  padv_caches
-            path: |
-                    $(System.DefaultWorkingDirectory)/cache_folder        
-                              
         - task: CopyFiles@2
-          displayName: 'Move cache to Respective Folders'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
-            contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_comparison/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_comparison/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_comparison/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_comparison/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)            
-         
-        - task: CmdLine@2
-          displayName: 'Launch MATLAB'
-          inputs:
-            script: |
-              mw -using bslcicd matlab -nodesktop -logfile output.log -batch "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.GenerateSimulinkWebView|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
-        
-        - task: CopyFiles@2
-          displayName: 'Move desired artifacts to "cache_folder" folder'
+          displayName: 'Move "temp" to network folder'
           inputs:
             sourceFolder: $(System.DefaultWorkingDirectory)
             contents: |
-                    03_Code/**
-                    04_Results/AHRS_Voter/code_inspection/**
-                    04_Results/AHRS_Voter/code_quality/**
-                    04_Results/AHRS_Voter/coding_standards/**
-                    04_Results/AHRS_Voter/design_error_detections/**
-                    04_Results/AHRS_Voter/model_comparison/**
-                    04_Results/AHRS_Voter/model_standards_results/**
-                    04_Results/AHRS_Voter/system_design_description/**
-                    04_Results/AHRS_Voter/webview/**
-                    04_Results/Actuator_Control/code_inspection/**
-                    04_Results/Actuator_Control/code_quality/**
-                    04_Results/Actuator_Control/coding_standards/**
-                    04_Results/Actuator_Control/design_error_detections/**
-                    04_Results/Actuator_Control/model_comparison/**
-                    04_Results/Actuator_Control/model_standards_results/**
-                    04_Results/Actuator_Control/system_design_description/**
-                    04_Results/Actuator_Control/webview/**
-                    04_Results/Flight_Control/code_inspection/**
-                    04_Results/Flight_Control/code_quality/**
-                    04_Results/Flight_Control/coding_standards/**
-                    04_Results/Flight_Control/design_error_detections/**
-                    04_Results/Flight_Control/model_comparison/**
-                    04_Results/Flight_Control/model_standards_results/**
-                    04_Results/Flight_Control/system_design_description/**
-                    04_Results/Flight_Control/webview/**
-                    04_Results/InnerLoop_Control/code_inspection/**
-                    04_Results/InnerLoop_Control/code_quality/**
-                    04_Results/InnerLoop_Control/coding_standards/**
-                    04_Results/InnerLoop_Control/design_error_detections/**
-                    04_Results/InnerLoop_Control/model_comparison/**
-                    04_Results/InnerLoop_Control/model_standards_results/**
-                    04_Results/InnerLoop_Control/system_design_description/**
-                    04_Results/InnerLoop_Control/webview/**
-                    04_Results/OuterLoop_Control/code_inspection/**
-                    04_Results/OuterLoop_Control/code_quality/**
-                    04_Results/OuterLoop_Control/coding_standards/**
-                    04_Results/OuterLoop_Control/design_error_detections/**
-                    04_Results/OuterLoop_Control/model_comparison/**
-                    04_Results/OuterLoop_Control/model_standards_results/**
-                    04_Results/OuterLoop_Control/system_design_description/**
-                    04_Results/OuterLoop_Control/webview/**
-                    04_Results/test_results/**
-                    derived/artifacts.dmr
-            targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-
-        - task: CopyFiles@2
-          displayName: 'Move "cache_folder" to network folder'
-          inputs:
-            sourceFolder: $(System.DefaultWorkingDirectory)
-            contents: |
-               cache_folder/**
+               temp/**
             targetFolder: /mathworks/devel/sandbox/vandita/
       
 
@@ -172,12 +61,12 @@ stages:
           displayName: 'Checkout Repository'
           
         - task: CopyFiles@2
-          displayName: 'Move "cache_folder" from network folder'
+          displayName: 'Move "temp" from network folder'
           inputs:
-            sourceFolder: /mathworks/devel/sandbox/vandita/cache_folder/
+            sourceFolder: /mathworks/devel/sandbox/vandita/
             contents: |
-               
-            targetFolder: $(System.DefaultWorkingDirectory)/
+               temp/**
+            targetFolder: $(System.DefaultWorkingDirectory)
            
         - task: CopyFiles@2
           displayName: 'Move Artifacts to Respective Folders'
