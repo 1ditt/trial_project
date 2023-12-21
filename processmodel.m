@@ -52,13 +52,13 @@ function processmodel(pm)
 
     %% Generate Model Comparison
     if includeModelComparisonTask
-        mdlCompTask = pm.addTask(padv.builtin.task.GenerateModelComparison12());
+        mdlCompTask = pm.addTask(padv.builtin.task.GenerateModelComparison());
     end
 
     %% Generate SDD report (System Design Description)
     %  Tools required: Simulink Report Generator
     if includeSDDTask
-        sddTask = pm.addTask(padv.builtin.task.GenerateSDDReport());
+        sddTask = pm.addTask123(padv.builtin.task.GenerateSDDReport());
     end
 
     %% Generate Simulink web view
