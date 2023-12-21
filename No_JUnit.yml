@@ -19,6 +19,7 @@ stages:
           inputs:
             script: |
               export PATH= $PATH:/mathworks/home/vandita/Downloads/MATLAB/R2023b/bin
+              set
 
 
         - task: RunMATLABCommand@0
