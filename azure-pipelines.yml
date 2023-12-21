@@ -26,7 +26,7 @@ stages:
           inputs:
             key: 'caching|$(Build.BuildId)'
             restoreKeys: 
-                  padv_cac
+                  padv_caches1
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder        
                               
@@ -1442,7 +1442,7 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'padv_cac|$(Build.BuildId)'  
+            key: 'padv_caches1|$(Build.BuildId)'  
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder 
           condition: succeededOrFailed()        
