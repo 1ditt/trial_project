@@ -38,23 +38,22 @@ stages:
 - stage: Check_Modeling_Standards 
   dependsOn: Generate_Simulink_Web_View
    
-  
   jobs:
   - job: Check_Modeling_Standards
     displayName: 'Check_Modeling_Standards'
     pool: Default
 
     steps:
-        - checkout: self 
-          displayName: 'Checkout Repository'
-          
-        - task: CopyFiles@2
-          displayName: 'Move "temp" from network folder'
-          inputs:
-            sourceFolder: /mathworks/devel/sandbox/vandita/temp/
-            contents: |
-                hello_world.txt
-            targetFolder: $(System.DefaultWorkingDirectory)
+      - checkout: self 
+        displayName: 'Checkout Repository'
+        
+      - task: CopyFiles@2
+        displayName: 'Move "temp" from network folder'
+        inputs:
+          sourceFolder: '/mathworks/devel/sandbox/vandita/'
+          contents: 'temp/**'  # Copy entire 'temp' folder and its contents
+          targetFolder: '$(System.DefaultWorkingDirectory)'
+
            
         
         
