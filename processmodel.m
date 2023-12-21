@@ -38,7 +38,7 @@ function processmodel(pm)
     if includeModelStandardsTask
         maTask = pm.addTask(padv.builtin.task.RunModelStandards());
         maTask.addInputQueries(padv.builtin.query.FindFileWithAddress( ...
-            Type='ma_config_file', Path=fullfile('tools','sampleChecks.json')));
+            Type='ma_config_file', Path=fullfile('tools','sampleChecks11.json')));
         % Change Report path
         maTask.ReportPath = fullfile(...
             '$DEFAULTOUTPUTDIR$','$ITERATIONARTIFACT$','model_standards_results');
@@ -58,7 +58,7 @@ function processmodel(pm)
     %% Generate SDD report (System Design Description)
     %  Tools required: Simulink Report Generator
     if includeSDDTask
-        sddTask = pm.addTask123(padv.builtin.task.GenerateSDDReport());
+        sddTask = pm.addTask(padv.builtin.task.GenerateSDDReport());
     end
 
     %% Generate Simulink web view
