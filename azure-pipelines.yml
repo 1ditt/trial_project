@@ -26,7 +26,7 @@ stages:
           inputs:
             key: 'caching|$(Build.BuildId)'
             restoreKeys: 
-                  padv_caches1
+                  padv_cac
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder        
                               
@@ -1441,74 +1441,80 @@ stages:
         - task: Cache@2
           displayName: Restore Cache
           inputs:
-            key: 'padv_caches1|$(Build.BuildId)'  
+            key: 'padv_cac|$(Build.BuildId)'  
             path: |
                     $(System.DefaultWorkingDirectory)/cache_folder 
-                    
+          condition: succeededOrFailed()        
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
            artifactName: 'Generate_Simulink_Web_View_padv_artifacts'          
            downloadPath: $(System.DefaultWorkingDirectory)/cache_folder   
-
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Check_Modeling_Standards_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Detect_Design_Errors_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Generate_SDD_Report_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Run_Tests_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Generate_Code_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
+          condition: succeededOrFailed()  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Check_Coding_Standards_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
-
+          condition: succeededOrFailed()   
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Prove_Code_Quality_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+          condition: succeededOrFailed()    
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Inspect_Code_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+          condition: succeededOrFailed()    
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Merge_Test_Results_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+          condition: succeededOrFailed()    
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Artifacts'
           inputs:
             artifactName: 'Generate_PADV_Report_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
+          condition: succeededOrFailed()    
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder
             artifact: 'Collect_Artifacts_padv_artifacts'
             publishLocation: 'pipeline' 
+          condition: succeededOrFailed()    
