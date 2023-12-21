@@ -65,7 +65,7 @@ stages:
           inputs:
             sourceFolder: /mathworks/devel/sandbox/vandita/temp/
             contents: |
-            
+                '**'
             targetFolder: $(System.DefaultWorkingDirectory)
            
         - task: CopyFiles@2
