@@ -19,7 +19,7 @@ stages:
           inputs:
             script: |
               pwd
-              set
+              setenv PATH $PATH:/mathworks/home/vandita/Downloads/MATLAB/R2023b/bin
 
 
         - task: RunMATLABCommand@0
