@@ -52,7 +52,7 @@ function processmodel(pm)
 
     %% Generate Model Comparison
     if includeModelComparisonTask
-        mdlCompTask = pm.addTask(padv.builtin.task.GenerateModelComparison());
+        mdlCompTask = pm.addTask(padv.builtin.task.GenerateModelComparison12());
     end
 
     %% Generate SDD report (System Design Description)
