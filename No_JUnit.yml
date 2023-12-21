@@ -34,18 +34,6 @@ stages:
             targetFolder: /mathworks/devel/sandbox/vandita/
       
 
-            
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: |
-                  padv_builtin_task_GenerateSimulinkWebView_Actuator_Control_JUnit.xml
-                  padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter_JUnit.xml
-                  padv_builtin_task_GenerateSimulinkWebView_Flight_Control_JUnit.xml
-                  padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control_JUnit.xml
-                  padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control_JUnit.xml
-            searchFolder: '$(System.DefaultWorkingDirectory)/04_Results/junit'
-
 
 - stage: Check_Modeling_Standards 
   dependsOn: Generate_Simulink_Web_View
@@ -65,7 +53,7 @@ stages:
           inputs:
             sourceFolder: /mathworks/devel/sandbox/vandita/
             contents: |
-                temp/**
+                temp
             targetFolder: $(System.DefaultWorkingDirectory)
            
         
