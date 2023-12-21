@@ -15,46 +15,13 @@ stages:
         - checkout: self 
           displayName: 'Checkout Repository'
 
-        - script: |
-              mkdir -p "$(System.DefaultWorkingDirectory)/temp"
-              echo "Created a new 'temp' folder in $(System.DefaultWorkingDirectory)."
-          displayName: 'Create Temp Folder in Default Working Directory'
-          
-        - script: |
-            echo "Hello World" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
-            echo "Created hello_world.txt in the temp directory."
-          displayName: 'Create Hello World Text File'
 
-        - task: ArtifactoryGenericUpload@2
+        - task: RunMATLABCommand@0
           inputs:
-            artifactoryService: 'BasicAuth-artifactory'
-            specSource: 'taskConfiguration'
-            fileSpec: |
-              {
-                "files": [
-                  {
-                    "pattern": "$(System.DefaultWorkingDirectory)/temp/**",
-                    "target": "myrepo-generic-local/"
-                  }
-                ]
-              }
-            failNoOp: true
+            command: "openProject(pwd);runprocess(Tasks = {''padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx'', ''padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx'', ''padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx'', ''padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx'', ''padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx''}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+            startupOptions: '-nodesktop -logfile output.log'
 
-  
-        - task: ArtifactoryGenericDownload@3
-          inputs:
-            connection: 'BasicAuth-artifactory'
-            specSource: 'taskConfiguration'
-            fileSpec: |
-              {
-                "files": [
-                  {
-                    "pattern": "myrepo-generic-local/**",
-                    "target": "$(System.DefaultWorkingDirectory)/work/"
-                  }
-                ]
-              }
-            failNoOp: true
+        
         - task: CopyFiles@2
           displayName: 'Move desired artifacts to "temp" folder'
           inputs:
