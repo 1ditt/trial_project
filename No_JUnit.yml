@@ -21,7 +21,7 @@ stages:
           displayName: 'Create Temp Folder in Default Working Directory'
           
         - script: |
-            echo "Hello World" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
+            echo "Hello World test" > $(System.DefaultWorkingDirectory)/temp/hello_world.txt
             echo "Created hello_world.txt in the temp directory."
           displayName: 'Create Hello World Text File'
 
@@ -50,11 +50,7 @@ stages:
       - task: CopyFiles@2
         displayName: 'Move "temp" from network folder'
         inputs:
-          sourceFolder: '/mathworks/devel/sandbox/vandita/'
-          contents: 'temp/**'  # Copy entire 'temp' folder and its contents
+          sourceFolder: '/mathworks/devel/sandbox/vandita/temp'
+          contents: 'hello_world.txt'  # Copy entire 'temp' folder and its contents
           targetFolder: '$(System.DefaultWorkingDirectory)'
 
-           
-        
-        
-       
