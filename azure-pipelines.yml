@@ -14,12 +14,7 @@ stages:
     steps:
         - checkout: self
           displayName: 'Checkout Repository'
-
-        - script: |
-              # Create a cache_folder in $(System.DefaultWorkingDirectory)
-              mkdir $(System.DefaultWorkingDirectory)/cache_folder
-          displayName: 'Create Cache Folder'   
-    
+  
 
         - task: Cache@2
           displayName: Restore Cache2
