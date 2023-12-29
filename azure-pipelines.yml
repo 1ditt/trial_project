@@ -4,7 +4,7 @@ trigger:
       - main
 
 stages:
-- stage: Generate_Simulink_Web_View
+- stage: Generate_Simulink_Web_View11
 
   jobs:
   - job: Generate_Simulink_Web_View
@@ -30,7 +30,7 @@ stages:
 - stage: Check_Modelling
 
   jobs:
-  - job: Check_Modeling
+  - job: Check_Modeling11
     pool: default
 
     steps:
