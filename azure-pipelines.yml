@@ -15,6 +15,14 @@ stages:
         - checkout: self
           displayName: 'Checkout Repository'
 
+  - job: Generate_Simulink_Web_View_second
+    pool:
+     vmImage: 'ubuntu-latest'
+
+    steps:
+        - checkout: self
+          displayName: 'Checkout Repository'        
+
 - stage: Check_Modelling
 
   jobs:
