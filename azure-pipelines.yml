@@ -8,8 +8,8 @@ stages:
 
   jobs:
   - job: Generate_Simulink_Web_View
-    pool:
-     vmImage: 'ubuntu-latest'
+    pool: default
+  
 
     steps:
         - checkout: self
@@ -19,19 +19,19 @@ stages:
           displayName: 'Checkout Repository2' 
 
   - job: Generate_Simulink_Web_View_second
-    pool:
-     vmImage: 'ubuntu-latest'
+    pool: default
 
     steps:
         - checkout: self
-          displayName: 'Checkout Repository'        
+          displayName: 'Checkout Repository3'        
+
+
 
 - stage: Check_Modelling
 
   jobs:
   - job: Check_Modeling
-    pool:
-     vmImage: 'ubuntu-latest'
+    pool: default
 
     steps:
         - checkout: self
