@@ -1433,6 +1433,7 @@ stages:
           
 - stage: Collect_Artifacts
   dependsOn: Generate_PADV_Report
+  condition: succeededOrFailed() 
   jobs:
   - job: Collect_Artifacts
     displayName: 'Collect_Artifacts'
