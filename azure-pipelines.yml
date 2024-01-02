@@ -96,14 +96,14 @@ stages:
                     04_Results/OuterLoop_Control/webview/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/cache_folder/
-  
+          condition: succeededOrFailed() 
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/cache_folder/
             artifact: ' Generate_Simulink_Web_View_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()
             
         - task: PublishTestResults@2
           inputs:
@@ -204,14 +204,14 @@ stages:
                     04_Results/OuterLoop_Control/model_standards_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Check_Modeling_Standards_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed() 
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -320,14 +320,14 @@ stages:
                     04_Results/OuterLoop_Control/design_error_detections/**
                     derived/artifacts.dmr
         targetFolder: $(System.DefaultWorkingDirectory)/temp
- 
+      condition: succeededOrFailed() 
     - task: PublishPipelineArtifact@1
       displayName: 'Upload Artifacts' 
       inputs:
        targetPath: $(System.DefaultWorkingDirectory)/temp/
        artifact: 'Detect_Design_Errors_padv_artifacts'
        publishLocation: 'pipeline'  
- 
+      condition: succeededOrFailed()
     - task: PublishTestResults@2
       inputs:
             testResultsFormat: 'JUnit'
@@ -441,14 +441,14 @@ stages:
                     04_Results/OuterLoop_Control/system_design_description/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-   
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Generate_SDD_Report_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -566,14 +566,14 @@ stages:
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
- 
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Run_Tests_padv_artifacts'
             publishLocation: 'pipeline' 
- 
+          condition: succeededOrFailed()    
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -692,13 +692,14 @@ stages:
                     03_Code/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Generate_Code_padv_artifacts'
             publishLocation: 'pipeline' 
+          condition: succeededOrFailed()  
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -831,14 +832,14 @@ stages:
                     04_Results/OuterLoop_Control/coding_standards/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Check_Coding_Standards_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()  
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -977,14 +978,14 @@ stages:
                     04_Results/OuterLoop_Control/code_quality/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-
+          condition: succeededOrFailed()  
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Prove_Code_Quality_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -1124,14 +1125,14 @@ stages:
                     04_Results/OuterLoop_Control/code_inspection/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-    
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Inspect_Code_padv_artifacts'
             publishLocation: 'pipeline' 
-
+          condition: succeededOrFailed()
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -1272,14 +1273,14 @@ stages:
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-       
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Merge_Test_Results_padv_artifacts'
             publishLocation: 'pipeline' 
-      
+          condition: succeededOrFailed()
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
@@ -1422,14 +1423,14 @@ stages:
                     04_Results/test_results/**
                     derived/artifacts.dmr
             targetFolder: $(System.DefaultWorkingDirectory)/temp/
-  
+          condition: succeededOrFailed()
         - task: PublishPipelineArtifact@1
           displayName: 'Upload Artifacts' 
           inputs:
             targetPath: $(System.DefaultWorkingDirectory)/temp/
             artifact: 'Generate_PADV_Report_padv_artifacts'
             publishLocation: 'pipeline'                                                                                                             
-
+          condition: succeededOrFailed()
           
 - stage: Collect_Artifacts
   dependsOn: Generate_PADV_Report
