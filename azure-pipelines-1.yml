@@ -164,7 +164,7 @@ stages:
     - task: CopyFiles@2
       displayName: 'Move Artifacts to Respective Folders'
       inputs:
-       sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder1
+       sourceFolder: $(System.DefaultWorkingDirectory)/cache_folder
        contents: |
                     03_Code/**
                     04_Results/AHRS_Voter/code_inspection/**
