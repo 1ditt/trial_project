@@ -14,7 +14,7 @@ stages:
     pool: Default
 
     steps:
-        - bash: echo '##vso[task.prependpath]/home/vandita/Downloads/MATLAB/R2023b/bin/'
+        - bash: echo '##vso[task.prependpath]/mathworks/devel/sandbox/vandita/MATLAB/R2023a/bin/'
         - task: RunMATLABCommand@0
           inputs:
             command: "openProject(pwd);runprocess(Tasks = {'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/AHRS_Voter/specification/AHRS_Voter.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Actuator_Control/specification/Actuator_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/Flight_Control/specification/Flight_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/InnerLoop_Control/specification/InnerLoop_Control.slx', 'padv.builtin.task.RunModelStandards|sl_model_file|ProcessAdvisorExample|02_Models/OuterLoop_Control/specification/OuterLoop_Control.slx'}, Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);" 
