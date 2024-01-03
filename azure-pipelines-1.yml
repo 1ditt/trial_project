@@ -322,13 +322,6 @@ stages:
           inputs:
             artifactName: 'Generate_SDD_Report_AHRS_Voter_padv_artifacts'          
             downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
- 
-
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Artifacts'
-          inputs:
-            artifactName: 'Generate_Code_AHRS_Voter_padv_artifacts'          
-            downloadPath: $(System.DefaultWorkingDirectory)/cache_folder
   
 
            
