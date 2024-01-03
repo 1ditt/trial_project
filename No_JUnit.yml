@@ -4,7 +4,7 @@ trigger:
       - main
 
 variables:
-  PATH_TO_MATLAB: /home/vandita/Downloads/MATLAB/R2023b/bin
+  PATH_TO_MATLAB: /home/vandita/Downloads/MATLAB/R2023b/bin/
 
 stages:
 - stage: Check_Modeling_Standards 
